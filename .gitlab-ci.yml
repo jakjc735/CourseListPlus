@@ -76,8 +76,6 @@ assembleDebug:
     paths:
       - app/build/outputs/
 
-helloworld_job:
-  script: "echo Hello World!"
 
 # Run all tests, if any fails, interrupt the pipeline(fail it)
 debugTests:
