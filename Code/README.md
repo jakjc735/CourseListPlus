@@ -27,4 +27,7 @@
 
 Congratulations, you successfully pulled the project.
 
+### MISC Details: 
+	* Language: Java
+	* Minimum SDK: API 24 - Android 7.0 (Nougat)
 
