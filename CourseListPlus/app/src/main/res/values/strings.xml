@@ -9,4 +9,11 @@
 
     <string name="menu_calendar">Calendar</string>
     <string name="menu_courses">Course List</string>
+    <string-array name="search_options">
+        <item>Time</item>
+        <item>Keyword</item>
+        <item>Reviews</item>
+        <item>Subject</item>
+        <item>Professor Name</item>
+    </string-array>
 </resources>

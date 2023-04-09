@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class CourseListViewModel extends ViewModel {
-
+    String coursename;
+    String ratings;
+    String input;
     private final MutableLiveData<String> mText;
 
     public CourseListViewModel() {

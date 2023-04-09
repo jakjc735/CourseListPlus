@@ -6,17 +6,361 @@
     android:layout_height="match_parent"
     tools:context=".ui.Calendar.CalendarFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="410dp"
+        android:layout_height="608dp"
+        app:columnCount="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:rowCount="6">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:id="@+id/md1"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="1" />
+                <Button
+                    android:id="@+id/tud2"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="1" />
+                <Button
+                    android:id="@+id/wd3"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="1" />
+                <Button
+                    android:id="@+id/thd4"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="1" />
+                <Button
+                    android:id="@+id/fd5"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="1" />
+                <Button
+                    android:id="@+id/sad6"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="1" />
+                <Button
+                    android:id="@+id/sud7"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:text="" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="15dp"
+            android:background="#00cc00"
+            app:cardElevation="0dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/firstcourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="20sp"
+                    android:text="coursename" />
+                <TextView
+                    android:id="@+id/time1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/firstcourse"
+                    android:textSize="17sp"
+                    android:text="time"/>
+                <TextView
+                    android:id="@+id/courid1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/time1"
+                    android:textSize="17sp"
+                    android:text="id"/>
+                <Button
+                    android:id="@+id/b1"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:text="Del"
+                    android:backgroundTint="#FF0000"
+                    android:textSize="8dp">
+
+                </Button>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/secondcourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="20sp"
+                    android:text=""/>
+                <TextView
+                    android:id="@+id/time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/secondcourse"
+                    android:textSize="17sp"
+                    android:text="time"/>
+                <TextView
+                    android:id="@+id/courid2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/time2"
+                    android:textSize="17sp"
+                    android:text="id"/>
+                <Button
+                    android:id="@+id/b2"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:text="Del"
+                    android:backgroundTint="#FF0000"
+                    android:textSize="8dp">
+                </Button>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/thirdcourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="20sp"
+                    android:text="" />
+                <TextView
+                    android:id="@+id/time3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/thirdcourse"
+                    android:textSize="17sp"
+                    android:text="time"/>
+                <TextView
+                    android:id="@+id/courid3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/time3"
+                    android:textSize="17sp"
+                    android:text="id"/>
+                <Button
+                    android:id="@+id/b3"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:text="Del"
+                    android:backgroundTint="#FF0000"
+                    android:textSize="8dp">
+                </Button>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/fourthcourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="20sp"
+                    android:text="" />
+                <TextView
+                    android:id="@+id/time4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/fourthcourse"
+                    android:textSize="17sp"
+                    android:text="time"/>
+                <TextView
+                    android:id="@+id/courid4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/time4"
+                    android:textSize="17sp"
+                    android:text="id"/>
+                <Button
+                    android:id="@+id/b4"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:text="Del"
+                    android:backgroundTint="#FF0000"
+                    android:textSize="8dp">
+                </Button>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/fifthcourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="20sp"
+                    android:text="" />
+                <TextView
+                    android:id="@+id/time5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/fifthcourse"
+                    android:textSize="17sp"
+                    android:text="time"/>
+                <TextView
+                    android:id="@+id/courid5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/time5"
+                    android:textSize="17sp"
+                    android:text="id"/>
+                <Button
+                    android:id="@+id/b5"
+                    android:layout_width="50dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentStart="true"
+                    android:text="Del"
+                    android:backgroundTint="#FF0000"
+                    android:textSize="8dp">
+                </Button>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.gridlayout.widget.GridLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

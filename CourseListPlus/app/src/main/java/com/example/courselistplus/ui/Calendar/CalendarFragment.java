@@ -16,6 +16,10 @@ public class CalendarFragment extends Fragment {
 
     private FragmentCalendarBinding binding;
 
+    String coursename;
+    String time;
+    String courseId;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         CalendarViewModel calendarViewModel =
@@ -24,8 +28,10 @@ public class CalendarFragment extends Fragment {
         binding = FragmentCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        calendarViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView1 = binding.firstcourse;
+        calendarViewModel.getText().observe(getViewLifecycleOwner(), textView1::setText);
+
+
         return root;
     }
 
