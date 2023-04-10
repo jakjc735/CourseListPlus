@@ -22,7 +22,7 @@ public class NavigationActivity extends AppCompatActivity {
     private ActivityNavigationBinding binding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
         binding = ActivityNavigationBinding.inflate(getLayoutInflater());
