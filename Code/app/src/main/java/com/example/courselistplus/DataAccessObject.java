@@ -67,6 +67,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
 
         // insert method returns success or failure (-1), can use as our return
         long insert = db.insert(COURSES_TABLE, null, cv);
+        db.close();
 
         return (insert == -1 ? false : true);
     }
