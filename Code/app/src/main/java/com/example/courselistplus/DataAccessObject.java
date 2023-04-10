@@ -140,41 +140,45 @@ public class DataAccessObject extends SQLiteOpenHelper {
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid CRNs)
+        try {
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + query;
+            SQLiteDatabase db = this.getReadableDatabase();
 
-        String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + query;
-        SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
 
-        Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    int coursePrimaryKey = cursor.getInt(0);
+                    int CRN = cursor.getInt(1);
+                    ;
+                    String courseID = cursor.getString(2);
+                    String courseAttribute = cursor.getString(3);
+                    String courseTitle = cursor.getString(4);
+                    String courseInstructor = cursor.getString(5);
+                    int creditHours = cursor.getInt(6);
+                    String meetDays = cursor.getString(7);
+                    String meetTime = cursor.getString(8);
+                    int projectedEnrollment = cursor.getInt(9);
+                    ;
+                    int currentEnrollment = cursor.getInt(10);
+                    ;
+                    String status = cursor.getString(11);
 
-        if(cursor.moveToFirst()){
-            do {
-                int coursePrimaryKey = cursor.getInt(0);
-                int CRN = cursor.getInt(1);;
-                String courseID = cursor.getString(2);
-                String courseAttribute = cursor.getString(3);
-                String courseTitle = cursor.getString(4);
-                String courseInstructor = cursor.getString(5);
-                int creditHours = cursor.getInt(6);
-                String meetDays = cursor.getString(7);
-                String meetTime = cursor.getString(8);
-                int projectedEnrollment = cursor.getInt(9);;
-                int currentEnrollment = cursor.getInt(10);;
-                String status = cursor.getString(11);
+                    CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
+                            CRN, courseID, courseAttribute, courseTitle, courseInstructor,
+                            creditHours, meetDays, meetTime, projectedEnrollment,
+                            currentEnrollment, status);
 
-                CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
-                        CRN, courseID, courseAttribute, courseTitle, courseInstructor,
-                        creditHours, meetDays, meetTime, projectedEnrollment,
-                        currentEnrollment, status);
+                    returnList.add(newCourseModel);
+                } while (cursor.moveToNext());
+            }
+            // close both the cursor and the db when done
+            cursor.close();
+            db.close();
 
-                returnList.add(newCourseModel);
-            } while(cursor.moveToNext());
-        } else {
-            // failure, is the database empty?
+        }catch(Exception e){
+            e.printStackTrace();
         }
-
-        // close both the cursor and the db when done
-        cursor.close();
-        db.close();
         return returnList;
     }
 
@@ -183,41 +187,45 @@ public class DataAccessObject extends SQLiteOpenHelper {
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid Credits)
+        try {
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CREDIT_HOURS= " + query;
+            SQLiteDatabase db = this.getReadableDatabase();
 
-        String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CREDIT_HOURS= " + query;
-        SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
 
-        Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    int coursePrimaryKey = cursor.getInt(0);
+                    int CRN = cursor.getInt(1);
+                    String courseID = cursor.getString(2);
+                    String courseAttribute = cursor.getString(3);
+                    String courseTitle = cursor.getString(4);
+                    String courseInstructor = cursor.getString(5);
+                    int creditHours = cursor.getInt(6);
+                    String meetDays = cursor.getString(7);
+                    String meetTime = cursor.getString(8);
+                    int projectedEnrollment = cursor.getInt(9);
+                    int currentEnrollment = cursor.getInt(10);
+                    String status = cursor.getString(11);
 
-        if(cursor.moveToFirst()){
-            do {
-                int coursePrimaryKey = cursor.getInt(0);
-                int CRN = cursor.getInt(1);;
-                String courseID = cursor.getString(2);
-                String courseAttribute = cursor.getString(3);
-                String courseTitle = cursor.getString(4);
-                String courseInstructor = cursor.getString(5);
-                int creditHours = cursor.getInt(6);
-                String meetDays = cursor.getString(7);
-                String meetTime = cursor.getString(8);
-                int projectedEnrollment = cursor.getInt(9);;
-                int currentEnrollment = cursor.getInt(10);;
-                String status = cursor.getString(11);
+                    CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
+                            CRN, courseID, courseAttribute, courseTitle, courseInstructor,
+                            creditHours, meetDays, meetTime, projectedEnrollment,
+                            currentEnrollment, status);
 
-                CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
-                        CRN, courseID, courseAttribute, courseTitle, courseInstructor,
-                        creditHours, meetDays, meetTime, projectedEnrollment,
-                        currentEnrollment, status);
+                    returnList.add(newCourseModel);
+                } while (cursor.moveToNext());
+            }
 
-                returnList.add(newCourseModel);
-            } while(cursor.moveToNext());
-        } else {
-            // failure, is the database empty?
+
+            // close both the cursor and the db when done
+            cursor.close();
+            db.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        // close both the cursor and the db when done
-        cursor.close();
-        db.close();
         return returnList;
     }
 
@@ -226,41 +234,43 @@ public class DataAccessObject extends SQLiteOpenHelper {
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid Meeting Days)
+        try {
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE MEET_DAYS= \"" + query + "\"";
+            SQLiteDatabase db = this.getReadableDatabase();
 
-        String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE MEET_DAYS= " + query;
-        SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
 
-        Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    int coursePrimaryKey = cursor.getInt(0);
+                    int CRN = cursor.getInt(1);
+                    String courseID = cursor.getString(2);
+                    String courseAttribute = cursor.getString(3);
+                    String courseTitle = cursor.getString(4);
+                    String courseInstructor = cursor.getString(5);
+                    int creditHours = cursor.getInt(6);
+                    String meetDays = cursor.getString(7);
+                    String meetTime = cursor.getString(8);
+                    int projectedEnrollment = cursor.getInt(9);
+                    int currentEnrollment = cursor.getInt(10);
+                    String status = cursor.getString(11);
 
-        if(cursor.moveToFirst()){
-            do {
-                int coursePrimaryKey = cursor.getInt(0);
-                int CRN = cursor.getInt(1);;
-                String courseID = cursor.getString(2);
-                String courseAttribute = cursor.getString(3);
-                String courseTitle = cursor.getString(4);
-                String courseInstructor = cursor.getString(5);
-                int creditHours = cursor.getInt(6);
-                String meetDays = cursor.getString(7);
-                String meetTime = cursor.getString(8);
-                int projectedEnrollment = cursor.getInt(9);;
-                int currentEnrollment = cursor.getInt(10);;
-                String status = cursor.getString(11);
+                    CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
+                            CRN, courseID, courseAttribute, courseTitle, courseInstructor,
+                            creditHours, meetDays, meetTime, projectedEnrollment,
+                            currentEnrollment, status);
 
-                CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
-                        CRN, courseID, courseAttribute, courseTitle, courseInstructor,
-                        creditHours, meetDays, meetTime, projectedEnrollment,
-                        currentEnrollment, status);
+                    returnList.add(newCourseModel);
+                } while (cursor.moveToNext());
+            }
 
-                returnList.add(newCourseModel);
-            } while(cursor.moveToNext());
-        } else {
-            // failure, is the database empty?
+            // close both the cursor and the db when done
+            cursor.close();
+            db.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
-
-        // close both the cursor and the db when done
-        cursor.close();
-        db.close();
         return returnList;
     }
 
@@ -269,41 +279,45 @@ public class DataAccessObject extends SQLiteOpenHelper {
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid Meeting Times)
+        try {
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE MEET_TIME= \"" + query + "\"";
+            SQLiteDatabase db = this.getReadableDatabase();
 
-        String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE MEET_TIME= " + query;
-        SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
 
-        Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    int coursePrimaryKey = cursor.getInt(0);
+                    int CRN = cursor.getInt(1);
+                    ;
+                    String courseID = cursor.getString(2);
+                    String courseAttribute = cursor.getString(3);
+                    String courseTitle = cursor.getString(4);
+                    String courseInstructor = cursor.getString(5);
+                    int creditHours = cursor.getInt(6);
+                    String meetDays = cursor.getString(7);
+                    String meetTime = cursor.getString(8);
+                    int projectedEnrollment = cursor.getInt(9);
+                    ;
+                    int currentEnrollment = cursor.getInt(10);
+                    ;
+                    String status = cursor.getString(11);
 
-        if(cursor.moveToFirst()){
-            do {
-                int coursePrimaryKey = cursor.getInt(0);
-                int CRN = cursor.getInt(1);;
-                String courseID = cursor.getString(2);
-                String courseAttribute = cursor.getString(3);
-                String courseTitle = cursor.getString(4);
-                String courseInstructor = cursor.getString(5);
-                int creditHours = cursor.getInt(6);
-                String meetDays = cursor.getString(7);
-                String meetTime = cursor.getString(8);
-                int projectedEnrollment = cursor.getInt(9);;
-                int currentEnrollment = cursor.getInt(10);;
-                String status = cursor.getString(11);
+                    CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
+                            CRN, courseID, courseAttribute, courseTitle, courseInstructor,
+                            creditHours, meetDays, meetTime, projectedEnrollment,
+                            currentEnrollment, status);
 
-                CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
-                        CRN, courseID, courseAttribute, courseTitle, courseInstructor,
-                        creditHours, meetDays, meetTime, projectedEnrollment,
-                        currentEnrollment, status);
+                    returnList.add(newCourseModel);
+                } while (cursor.moveToNext());
+            }
+            // close both the cursor and the db when done
+            cursor.close();
+            db.close();
 
-                returnList.add(newCourseModel);
-            } while(cursor.moveToNext());
-        } else {
-            // failure, is the database empty?
+        }catch(Exception e){
+            e.printStackTrace();
         }
-
-        // close both the cursor and the db when done
-        cursor.close();
-        db.close();
         return returnList;
     }
 
@@ -312,41 +326,46 @@ public class DataAccessObject extends SQLiteOpenHelper {
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid Instructors)
+        try {
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE COURSE_INSTRUCTOR= \"" + query + "\"";
+            SQLiteDatabase db = this.getReadableDatabase();
 
-        String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE COURSE_INSTRUCTOR= " + query;
-        SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null);
 
-        Cursor cursor = db.rawQuery(queryString, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    int coursePrimaryKey = cursor.getInt(0);
+                    int CRN = cursor.getInt(1);
+                    ;
+                    String courseID = cursor.getString(2);
+                    String courseAttribute = cursor.getString(3);
+                    String courseTitle = cursor.getString(4);
+                    String courseInstructor = cursor.getString(5);
+                    int creditHours = cursor.getInt(6);
+                    String meetDays = cursor.getString(7);
+                    String meetTime = cursor.getString(8);
+                    int projectedEnrollment = cursor.getInt(9);
+                    ;
+                    int currentEnrollment = cursor.getInt(10);
 
-        if(cursor.moveToFirst()){
-            do {
-                int coursePrimaryKey = cursor.getInt(0);
-                int CRN = cursor.getInt(1);;
-                String courseID = cursor.getString(2);
-                String courseAttribute = cursor.getString(3);
-                String courseTitle = cursor.getString(4);
-                String courseInstructor = cursor.getString(5);
-                int creditHours = cursor.getInt(6);
-                String meetDays = cursor.getString(7);
-                String meetTime = cursor.getString(8);
-                int projectedEnrollment = cursor.getInt(9);;
-                int currentEnrollment = cursor.getInt(10);;
-                String status = cursor.getString(11);
+                    String status = cursor.getString(11);
 
-                CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
-                        CRN, courseID, courseAttribute, courseTitle, courseInstructor,
-                        creditHours, meetDays, meetTime, projectedEnrollment,
-                        currentEnrollment, status);
+                    CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
+                            CRN, courseID, courseAttribute, courseTitle, courseInstructor,
+                            creditHours, meetDays, meetTime, projectedEnrollment,
+                            currentEnrollment, status);
 
-                returnList.add(newCourseModel);
-            } while(cursor.moveToNext());
-        } else {
-            // failure, is the database empty?
+                    returnList.add(newCourseModel);
+                } while (cursor.moveToNext());
+            }
+
+            // close both the cursor and the db when done
+            cursor.close();
+            db.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        // close both the cursor and the db when done
-        cursor.close();
-        db.close();
         return returnList;
     }
 }
