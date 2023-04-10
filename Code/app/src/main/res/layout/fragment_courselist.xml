@@ -6,234 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".ui.CourseList.CourseListFragment">
 
-    <ScrollView
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+    <Spinner
+        android:id="@+id/filterSpinner"
+        android:layout_width="200dp"
+        android:layout_height="55dp"
+        android:contentDescription="@string/filterToApply"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/searchButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/querySearchView"
+        />
+
+    <android.widget.SearchView
+        android:id="@+id/querySearchView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:queryHint="@string/Search"
+        android:iconifiedByDefault="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/searchButton"
+        app:layout_constraintLeft_toRightOf="@id/filterSpinner"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <!--    </LinearLayout>-->
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Search"
+        app:layout_constraintTop_toBottomOf="@id/querySearchView"
+        app:layout_constraintBottom_toTopOf="@id/coursesListView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ListView
+        android:id="@+id/coursesListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="198dp"
-                    android:layout_height="55dp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Search" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </LinearLayout>
-            <androidx.gridlayout.widget.GridLayout
-                android:layout_width="410dp"
-                android:layout_height="608dp"
-                app:columnCount="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:rowCount="4">
-
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="5dp"
-                    android:background="#00cc00"
-                    app:cardElevation="0dp"
-                    app:layout_columnWeight="1"
-                    app:layout_rowWeight="1"
-                    app:cardBackgroundColor="@color/black"
-                    app:contentPadding="1dp"
-                    >
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/white"
-                        >
-
-                        <Button
-                            android:id="@+id/add1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentRight="true"
-                            android:backgroundTint="#00cc00"
-                            android:text="Add" />
-
-                        <TextView
-                            android:id="@+id/search1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:textSize="22sp"
-                            android:layout_centerHorizontal="true"
-                            android:text="coursename1" />
-                        <TextView
-                            android:id="@+id/rating1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_below="@+id/search1"
-                            android:textSize="20sp"
-                            android:text="Rating1"/>
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="5dp"
-                    android:background="#00cc00"
-                    app:cardElevation="0dp"
-                    app:layout_columnWeight="1"
-                    app:layout_rowWeight="1"
-                    app:cardBackgroundColor="@color/black"
-                    app:contentPadding="1dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/white">
-                        <Button
-                            android:id="@+id/add2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentRight="true"
-                            android:backgroundTint="#00cc00"
-                            android:text="Add" />
-
-                        <TextView
-                            android:id="@+id/search2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="4dp"
-                            android:textSize="22sp"
-                            android:text="coursename2"/>
-                        <TextView
-                            android:id="@+id/rating2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_below="@+id/search2"
-                            android:textSize="20sp"
-                            android:text="Rating2"/>
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="5dp"
-                    android:background="#00cc00"
-                    app:cardElevation="0dp"
-                    app:layout_columnWeight="1"
-                    app:layout_rowWeight="1"
-                    app:cardBackgroundColor="@color/black"
-                    app:contentPadding="1dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/white">
-                        <Button
-                            android:id="@+id/add3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentRight="true"
-                            android:backgroundTint="#00cc00"
-                            android:text="Add" />
-
-                        <TextView
-                            android:id="@+id/search3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="4dp"
-                            android:textSize="22sp"
-                            android:text="coursename3" />
-                        <TextView
-                            android:id="@+id/rating3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_below="@+id/search3"
-                            android:textSize="20sp"
-                            android:text="Rating3"/>
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="5dp"
-                    android:background="#00cc00"
-                    app:cardElevation="0dp"
-                    app:layout_columnWeight="1"
-                    app:layout_rowWeight="1"
-                    app:cardBackgroundColor="@color/black"
-                    app:contentPadding="1dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/white">
-
-                        <Button
-                            android:id="@+id/add4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentRight="true"
-                            android:backgroundTint="#00cc00"
-                            android:text="Add" />
-
-                        <TextView
-                            android:id="@+id/search4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="4dp"
-                            android:textSize="22sp"
-                            android:text="coursename4" />
-                        <TextView
-                            android:id="@+id/rating4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_below="@+id/search4"
-                            android:textSize="20sp"
-                            android:text="Rating4"/>
-
-                    </RelativeLayout>
-                </androidx.cardview.widget.CardView>
-
-
-            </androidx.gridlayout.widget.GridLayout>
-
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

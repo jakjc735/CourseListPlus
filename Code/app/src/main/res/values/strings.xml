@@ -9,11 +9,13 @@
 
     <string name="menu_calendar">Calendar</string>
     <string name="menu_courses">Course List</string>
+    <string name="Search">Search</string>
+    <string name="filterToApply">Filter To Apply</string>
     <string-array name="search_options">
-        <item>Time</item>
-        <item>Keyword</item>
-        <item>Reviews</item>
-        <item>Subject</item>
-        <item>Professor Name</item>
+        <item>CRN</item>
+        <item>Credits</item>
+        <item>Meet Days</item>
+        <item>Meet Times</item>
+        <item>Instructor</item>
     </string-array>
 </resources>
