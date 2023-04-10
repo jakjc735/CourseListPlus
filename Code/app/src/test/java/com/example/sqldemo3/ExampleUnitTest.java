@@ -1,4 +1,4 @@
-package com.example.courselistplus;
+package com.example.sqldemo3;
 
 import org.junit.Test;
 
