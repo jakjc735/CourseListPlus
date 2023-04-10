@@ -1,4 +1,4 @@
-package com.example.courselistplus;
+package com.example.sqldemo3;
 
 public class CourseModel {
     private int id;
