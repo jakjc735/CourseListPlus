@@ -77,15 +77,7 @@ public class NavigationActivity extends AppCompatActivity {
         }};
 
         for(int i = 0; i < 5; i++){
-            boolean success = dataAccessObject.addOne(courseModelList.get(i));
-            Toast.makeText(NavigationActivity.this, "Inserting " +
-                    courseModelList.get(i).getCourseTitle() + " Success = " + success,
-                    Toast.LENGTH_SHORT).show();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e){
-                e.printStackTrace();
-            }
+            dataAccessObject.addOne(courseModelList.get(i));
         }
     }
 
