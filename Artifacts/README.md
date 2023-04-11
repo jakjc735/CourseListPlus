@@ -25,18 +25,10 @@ Choose the device or emulator that you want to run the app on and click on "OK".
 
 * Our search bar takes the specific keywords as listed above and does queries for available courses in our database. If the query result is found in the database our app will return an course to the courselist view. Otherwise, the screen will remain blank and wait for a successful query.      
 
-Note: For the time being users are only able to search for 5 classes as shown below by the elements in the column names**
+Note: For the time being users are only able to search for 5 classes as shown in the link below by the elements under the different column names**
 
 
-Link To database screenshot to see attributes to search and get back queries: file:///C:/Users/korir/Downloads/Database_screenshot.png 
-
-
-
-
-
-
-
-
+Link To database screenshot to see attributes to search and get back queries: https://drive.google.com/file/d/1N2vF3AeGcoxOsHewBEFGMhvegg31UQze/view?usp=sharing
 
 
 4) How did we established tests?
