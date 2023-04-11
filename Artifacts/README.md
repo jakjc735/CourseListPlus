@@ -28,7 +28,7 @@ Choose the device or emulator that you want to run the app on and click on "OK".
 Note: For the time being users are only able to search for 5 classes as shown below by the elements in the column names**
 
 
-`![Screenshot of Database Table Attributes to Search from](C:\Users\korir\Downloads\Database_screenshot.png)`
+Link To database screenshot to see attributes to search and get back queries: file:///C:/Users/korir/Downloads/Database_screenshot.png 
 
 
 
