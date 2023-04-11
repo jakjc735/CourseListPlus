@@ -49,26 +49,34 @@ public class DataAccessObject extends SQLiteOpenHelper {
 
     }
 
-    public boolean addOne(CourseModel courseModel){
+    public void addOne(CourseModel courseModel){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_CRN, courseModel.getCRN());
-        cv.put(COLUMN_COURSE_ID, courseModel.getCourseID());
-        cv.put(COLUMN_COURSE_ATTRIBUTE, courseModel.getCourseAttribute());
-        cv.put(COLUMN_COURSE_TITLE, courseModel.getCourseTitle());
-        cv.put(COLUMN_COURSE_INSTRUCTOR, courseModel.getCourseInstructor());
-        cv.put(COLUMN_CREDIT_HOURS, courseModel.getCreditHours());
-        cv.put(COLUMN_MEET_DAYS, courseModel.getMeetDays());
-        cv.put(COLUMN_MEET_TIME, courseModel.getMeetTime());
-        cv.put(COLUMN_PROJECTED_ENROLLMENT, courseModel.getProjectedEnrollment());
-        cv.put(COLUMN_CURRENT_ENROLLMENT, courseModel.getCurrentEnrollment());
-        cv.put(COLUMN_STATUS, courseModel.getStatus());
+        String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + String.valueOf(courseModel.getCRN());
+        Cursor cursor = db.rawQuery(queryString, null);
 
-        // insert method returns success or failure (-1), can use as our return
-        long insert = db.insert(COURSES_TABLE, null, cv);
+        // Prevents inserting a course if it's already in the database
+        if(cursor.moveToFirst()){
+            // duplicate insertion, do nothing
+        } else {
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_CRN, courseModel.getCRN());
+            cv.put(COLUMN_COURSE_ID, courseModel.getCourseID());
+            cv.put(COLUMN_COURSE_ATTRIBUTE, courseModel.getCourseAttribute());
+            cv.put(COLUMN_COURSE_TITLE, courseModel.getCourseTitle());
+            cv.put(COLUMN_COURSE_INSTRUCTOR, courseModel.getCourseInstructor());
+            cv.put(COLUMN_CREDIT_HOURS, courseModel.getCreditHours());
+            cv.put(COLUMN_MEET_DAYS, courseModel.getMeetDays());
+            cv.put(COLUMN_MEET_TIME, courseModel.getMeetTime());
+            cv.put(COLUMN_PROJECTED_ENROLLMENT, courseModel.getProjectedEnrollment());
+            cv.put(COLUMN_CURRENT_ENROLLMENT, courseModel.getCurrentEnrollment());
+            cv.put(COLUMN_STATUS, courseModel.getStatus());
 
-        return (insert == -1 ? false : true);
+            // insert method returns success or failure (-1), can use to check success
+            db.insert(COURSES_TABLE, null, cv);
+        }
+
+        cursor.close();
     }
 
     public List<CourseModel> getMatchingCourses(String filter, String query){
