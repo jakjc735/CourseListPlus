@@ -11,28 +11,41 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that provides data operations without exposing database details
+ *
+ * @author abdih
+ */
 public class DataAccessObject extends SQLiteOpenHelper {
 
-    public static final String COURSES_TABLE = "COURSES_TABLE";
-    public static final String COLUMN_CRN = "CRN";
-    public static final String COLUMN_COURSE_ID = "COURSE_ID";
-    public static final String COLUMN_COURSE_ATTRIBUTE = "COURSE_ATTRIBUTE";
-    public static final String COLUMN_COURSE_TITLE = "COURSE_TITLE";
-    public static final String COLUMN_COURSE_INSTRUCTOR = "COURSE_INSTRUCTOR";
-    public static final String COLUMN_CREDIT_HOURS = "CREDIT_HOURS";
-    public static final String COLUMN_MEET_DAYS = "MEET_DAYS";
-    public static final String COLUMN_MEET_TIME = "MEET_TIME";
-    public static final String COLUMN_PROJECTED_ENROLLMENT = "PROJECTED_ENROLLEMENT";
-    public static final String COLUMN_CURRENT_ENROLLMENT = "CURRENT_ENROLLMENT";
-    public static final String COLUMN_STATUS = "STATUS";
+    // String constants to save time/avoid errors when referring to database elements
+    private static final String COURSES_TABLE = "COURSES_TABLE";
+    private static final String COLUMN_CRN = "CRN";
+    private static final String COLUMN_COURSE_ID = "COURSE_ID";
+    private static final String COLUMN_COURSE_ATTRIBUTE = "COURSE_ATTRIBUTE";
+    private static final String COLUMN_COURSE_TITLE = "COURSE_TITLE";
+    private static final String COLUMN_COURSE_INSTRUCTOR = "COURSE_INSTRUCTOR";
+    private static final String COLUMN_CREDIT_HOURS = "CREDIT_HOURS";
+    private static final String COLUMN_MEET_DAYS = "MEET_DAYS";
+    private static final String COLUMN_MEET_TIME = "MEET_TIME";
+    private static final String COLUMN_PROJECTED_ENROLLMENT = "PROJECTED_ENROLLEMENT";
+    private static final String COLUMN_CURRENT_ENROLLMENT = "CURRENT_ENROLLMENT";
+    private static final String COLUMN_STATUS = "STATUS";
 
+    /**
+     * Data Access Object (DAO) constructor
+     *
+     * @param context Application context to use for locating paths to the the database
+     */
     public DataAccessObject(@Nullable Context context) {
         super(context, "courses.db", null, 1);
     }
 
-    // This is called the first time a database is accessed.
-    // There should be code in here to create a new database.
-    // The tutorial I am using: https://www.youtube.com/watch?v=312RhjfetP8
+    /**
+     * onCreate is called whenever the app is freshly installed to create and launch the database
+     *
+     * @param sqLiteDatabase The database.
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String createTableStatement = "CREATE TABLE " + COURSES_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -44,12 +57,24 @@ public class DataAccessObject extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createTableStatement);
     }
 
+    /**
+     * Unused method, typically intended to store code regarding updates to the database version.
+     *
+     * @param sqLiteDatabase The database.
+     * @param i The old database version.
+     * @param i1 The new database version.
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
 
-    public void addOne(CourseModel courseModel){
+    /**
+     * Helper method for adding an item into the database
+     *
+     * @param courseModel The course to add
+     */
+    protected void addOne(CourseModel courseModel){
         SQLiteDatabase db = this.getWritableDatabase();
 
         String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + String.valueOf(courseModel.getCRN());
@@ -79,6 +104,14 @@ public class DataAccessObject extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    /**
+     * User query processing method, matches the the query by filter type then passes along to
+     * the appropriate helper method
+     *
+     * @param filter the filter the user is searching based on, e.g. Instructor
+     * @param query the query the user typed into the search view on the UI, e.g. Kemper, Peter
+     * @return List of courses (Course Model objects) from the database matching the query
+     */
     public List<CourseModel> getMatchingCourses(String filter, String query){
         List<CourseModel> returnList = new ArrayList<>();
 
@@ -103,7 +136,12 @@ public class DataAccessObject extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public List<CourseModel> getAllCourses(){
+    /**
+     * Method to return all the courses currently in the database
+     *
+     * @return List of all courses (Course Model objects) in the database
+     */
+    protected List<CourseModel> getAllCourses(){
         List<CourseModel> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + COURSES_TABLE;
@@ -114,7 +152,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do {
                 int coursePrimaryKey = cursor.getInt(0);
-                int CRN = cursor.getInt(1);;
+                int CRN = cursor.getInt(1);
                 String courseID = cursor.getString(2);
                 String courseAttribute = cursor.getString(3);
                 String courseTitle = cursor.getString(4);
@@ -122,8 +160,8 @@ public class DataAccessObject extends SQLiteOpenHelper {
                 int creditHours = cursor.getInt(6);
                 String meetDays = cursor.getString(7);
                 String meetTime = cursor.getString(8);
-                int projectedEnrollment = cursor.getInt(9);;
-                int currentEnrollment = cursor.getInt(10);;
+                int projectedEnrollment = cursor.getInt(9);
+                int currentEnrollment = cursor.getInt(10);
                 String status = cursor.getString(11);
 
                 CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
@@ -143,13 +181,18 @@ public class DataAccessObject extends SQLiteOpenHelper {
         return returnList;
     }
 
-    // Method to process the query of a user searching for a course by CRN
+    /**
+     * Method to process the query of a user searching for a course by CRN
+     *
+     * @param query the query the user typed into the search view on the UI, e.g. 25722
+     * @return List of courses (Course Model objects) from the database matching the query
+     */
     private List<CourseModel> getMatchingCRN(String query){
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid CRNs)
         try {
-            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + query;
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_CRN + "= " + query;
             SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
@@ -158,7 +201,6 @@ public class DataAccessObject extends SQLiteOpenHelper {
                 do {
                     int coursePrimaryKey = cursor.getInt(0);
                     int CRN = cursor.getInt(1);
-                    ;
                     String courseID = cursor.getString(2);
                     String courseAttribute = cursor.getString(3);
                     String courseTitle = cursor.getString(4);
@@ -167,9 +209,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String meetDays = cursor.getString(7);
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
-                    ;
                     int currentEnrollment = cursor.getInt(10);
-                    ;
                     String status = cursor.getString(11);
 
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
@@ -190,13 +230,19 @@ public class DataAccessObject extends SQLiteOpenHelper {
         return returnList;
     }
 
-    // Method to process the query of a user searching for a course by Credit Hours
+    /**
+     * Method to process the query of a user searching for a course by Credit Hours
+     *
+     * @param query the query the user typed into the search view on the UI, e.g. 4
+     * @return List of courses (Course Model objects) from the database matching the query
+     */
     private List<CourseModel> getMatchingCredits(String query){
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid Credits)
         try {
-            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CREDIT_HOURS= " + query;
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_CREDIT_HOURS
+                    + "= " + query;
             SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
@@ -224,7 +270,6 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
             }
-
 
             // close both the cursor and the db when done
             cursor.close();
@@ -237,13 +282,19 @@ public class DataAccessObject extends SQLiteOpenHelper {
         return returnList;
     }
 
-    // Method to process the query of a user searching for a course by Meeting Days
+    /**
+     * Method to process the query of a user searching for a course by Meeting Days
+     *
+     * @param query the query the user typed into the search view on the UI, e.g. MWF
+     * @return List of courses (Course Model objects) from the database matching the query
+     */
     private List<CourseModel> getMatchingMeetDays(String query){
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid Meeting Days)
         try {
-            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE MEET_DAYS= \"" + query + "\"";
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_MEET_DAYS +
+                    "= \"" + query + "\"";
             SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
@@ -282,13 +333,19 @@ public class DataAccessObject extends SQLiteOpenHelper {
         return returnList;
     }
 
-    // Method to process the query of a user searching for a course by Meeting Time
+    /**
+     * Method to process the query of a user searching for a course by Meeting Time
+     *
+     * @param query the query the user typed into the search view on the UI, e.g. 1200-1250
+     * @return List of courses (Course Model objects) from the database matching the query
+     */
     private List<CourseModel> getMatchingMeetTime(String query){
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid Meeting Times)
         try {
-            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE MEET_TIME= \"" + query + "\"";
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_MEET_TIME +
+                    "= \"" + query + "\"";
             SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
@@ -297,7 +354,6 @@ public class DataAccessObject extends SQLiteOpenHelper {
                 do {
                     int coursePrimaryKey = cursor.getInt(0);
                     int CRN = cursor.getInt(1);
-                    ;
                     String courseID = cursor.getString(2);
                     String courseAttribute = cursor.getString(3);
                     String courseTitle = cursor.getString(4);
@@ -306,9 +362,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String meetDays = cursor.getString(7);
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
-                    ;
                     int currentEnrollment = cursor.getInt(10);
-                    ;
                     String status = cursor.getString(11);
 
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
@@ -329,13 +383,19 @@ public class DataAccessObject extends SQLiteOpenHelper {
         return returnList;
     }
 
-    // Method to process the query of a user searching for a course by Instructor
+    /**
+     * Method to process the query of a user searching for a course by Instructor
+     *
+     * @param query the query the user typed into the search view on the UI, e.g. Kemper, Peter
+     * @return List of courses (Course Model objects) from the database matching the query
+     */
     private List<CourseModel> getMatchingInstructor(String query){
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid Instructors)
         try {
-            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE COURSE_INSTRUCTOR= \"" + query + "\"";
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " +
+                    COLUMN_COURSE_INSTRUCTOR + "= \"" + query + "\"";
             SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
@@ -344,7 +404,6 @@ public class DataAccessObject extends SQLiteOpenHelper {
                 do {
                     int coursePrimaryKey = cursor.getInt(0);
                     int CRN = cursor.getInt(1);
-                    ;
                     String courseID = cursor.getString(2);
                     String courseAttribute = cursor.getString(3);
                     String courseTitle = cursor.getString(4);
@@ -353,7 +412,6 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String meetDays = cursor.getString(7);
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
-                    ;
                     int currentEnrollment = cursor.getInt(10);
 
                     String status = cursor.getString(11);
