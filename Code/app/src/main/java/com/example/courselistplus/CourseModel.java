@@ -1,6 +1,12 @@
 package com.example.courselistplus;
 
+/**
+ * The class definition for the course objects
+ *
+ * @author abdih
+ */
 public class CourseModel {
+    // Columns displayed for a course on W&M's open course list
     private int id;
     private int CRN;
     // Example: CHEM 150
@@ -19,7 +25,22 @@ public class CourseModel {
     // Example: Open
     private String status;
 
-    // Constructor
+    /**
+     * Course object constructor
+     *
+     * @param id the id (primary key) of the course in the database
+     * @param CRN the course pre-fix number. Should be unique to each course each semester
+     * @param courseID The subject and 3 digit course number e.g. ANTH 150
+     * @param courseAttribute course attributes for degreeworks e.g. C150 for Coll 150
+     * @param courseTitle Name of the Course
+     * @param courseInstructor Instructor teaching the course
+     * @param creditHours The number of credits hours assigned to the course
+     * @param meetDays Days of the week course meets. First letter of day of week used with R for thursday
+     * @param meetTime Meeting time of the course in military time and HHMM-HHMM format
+     * @param projectedEnrollment Number of available seats in the course
+     * @param currentEnrollment Number of students registered for the course
+     * @param status If the course is open for enrollment or not e.g. Open, Closed
+     */
     public CourseModel(int id, int CRN, String courseID, String courseAttribute, String courseTitle,
                        String courseInstructor, int creditHours, String meetDays, String meetTime,
                        int projectedEnrollment, int currentEnrollment, String status) {
