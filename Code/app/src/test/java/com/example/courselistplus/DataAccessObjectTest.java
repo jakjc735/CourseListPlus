@@ -14,19 +14,33 @@ import com.example.courselistplus.DataAccessObject;
 
 import java.util.List;
 
+
+/**
+ * This class tests the functionality of the DataAccessObject class
+ * @author amirshariatmadari 
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DataAccessObjectTest {
 
     private DataAccessObject dataAccessObject;
     private Context mockContext;
+
+    /**
+     * This method sets up the DataAccessObject by passing in a mock context to the object
+     * on construction.
+     * @author amirshariatmadari
+     */
     @Before
     public void setUp() {
-
 //        mockContext = Mockito.mock
         // create a new instance of the class to be tested
         dataAccessObject = new DataAccessObject(RuntimeEnvironment.application.getApplicationContext());
     }
-//
+
+    /**
+     * This method closes the object connection to the database upon test completion
+     * @author amirhassanshariatmadari
+     */
     @After
     public void tearDown() {
         // close the database connection when done
@@ -34,6 +48,12 @@ public class DataAccessObjectTest {
     }
 
 
+    /**
+     * This method will create a CourseModel and populate it with class information. The CourseModel
+     * object is added to the database via the dataAccessObject. The method tests if the course is
+     * successfully added to the database and that the dataAccessObject can successfully list it.
+     * @author amirshariatmadari
+     */
     @Test
     public void testGetAllCourses() {
 
@@ -51,6 +71,10 @@ public class DataAccessObjectTest {
         assertTrue(courseList.contains(courseModel));
     }
 
+    /**
+     * This method tests the dataAccessObject.getMatchingCourses() method after adding a course the database.
+     * @author amirshariatmadari
+     */
     @Test
     public void testGetMatchingCourses() {
         // create a new course object to insert into the database

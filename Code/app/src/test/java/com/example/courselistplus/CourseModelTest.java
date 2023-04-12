@@ -3,8 +3,18 @@ package com.example.courselistplus;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+
+/**
+ * This test class tests the functionality of the CourseModel class
+ * @author amirshariatmadari
+ */
 public class CourseModelTest {
 
+    /**
+     * This tests the CourseModel's constructor and it's getter and setter methods to make sure that all added values are
+     * stored and received properly.
+     * @author amirshariatmadari
+     */
     @Test
     public void testCourseModelConstructorAndGetters() {
         // Create a new CourseModel object
@@ -26,6 +36,10 @@ public class CourseModelTest {
         assertEquals("Open", course.getStatus());
     }
 
+    /**
+     * This tests if the CourseModel class can successfully update its attributes with the setter method.
+     * @author amirshariatmadari
+     */
     @Test
     public void testCourseModelSetters() {
         // Create a new CourseModel object
