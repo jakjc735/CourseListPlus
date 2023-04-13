@@ -20,6 +20,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
 
     // String constants to save time/avoid errors when referring to database elements
     private static final String COURSES_TABLE = "COURSES_TABLE";
+    // Testing commit
     private static final String COLUMN_CRN = "CRN";
     private static final String COLUMN_COURSE_ID = "COURSE_ID";
     private static final String COLUMN_COURSE_ATTRIBUTE = "COURSE_ATTRIBUTE";
