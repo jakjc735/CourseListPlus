@@ -77,7 +77,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
     protected void addOne(CourseModel courseModel){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + String.valueOf(courseModel.getCRN());
+        String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + courseModel.getCRN();
         Cursor cursor = db.rawQuery(queryString, null);
 
         // Prevents inserting a course if it's already in the database
@@ -157,7 +157,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                 String courseAttribute = cursor.getString(3);
                 String courseTitle = cursor.getString(4);
                 String courseInstructor = cursor.getString(5);
-                int creditHours = cursor.getInt(6);
+                String creditHours = cursor.getString(6);
                 String meetDays = cursor.getString(7);
                 String meetTime = cursor.getString(8);
                 int projectedEnrollment = cursor.getInt(9);
@@ -205,7 +205,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String courseAttribute = cursor.getString(3);
                     String courseTitle = cursor.getString(4);
                     String courseInstructor = cursor.getString(5);
-                    int creditHours = cursor.getInt(6);
+                    String creditHours = cursor.getString(6);
                     String meetDays = cursor.getString(7);
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
@@ -241,8 +241,9 @@ public class DataAccessObject extends SQLiteOpenHelper {
 
         // TODO: Add input validation (protect against invalid Credits)
         try {
-            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_CREDIT_HOURS
-                    + "= " + query;
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_CREDIT_HOURS +
+                    "= \"" + query + "\"";
+
             SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
@@ -255,7 +256,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String courseAttribute = cursor.getString(3);
                     String courseTitle = cursor.getString(4);
                     String courseInstructor = cursor.getString(5);
-                    int creditHours = cursor.getInt(6);
+                    String creditHours = cursor.getString(6);
                     String meetDays = cursor.getString(7);
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
@@ -307,7 +308,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String courseAttribute = cursor.getString(3);
                     String courseTitle = cursor.getString(4);
                     String courseInstructor = cursor.getString(5);
-                    int creditHours = cursor.getInt(6);
+                    String creditHours = cursor.getString(6);
                     String meetDays = cursor.getString(7);
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
@@ -358,7 +359,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String courseAttribute = cursor.getString(3);
                     String courseTitle = cursor.getString(4);
                     String courseInstructor = cursor.getString(5);
-                    int creditHours = cursor.getInt(6);
+                    String creditHours = cursor.getString(6);
                     String meetDays = cursor.getString(7);
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
@@ -408,7 +409,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String courseAttribute = cursor.getString(3);
                     String courseTitle = cursor.getString(4);
                     String courseInstructor = cursor.getString(5);
-                    int creditHours = cursor.getInt(6);
+                    String creditHours = cursor.getString(6);
                     String meetDays = cursor.getString(7);
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
