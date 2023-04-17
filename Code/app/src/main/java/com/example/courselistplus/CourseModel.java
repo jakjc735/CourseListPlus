@@ -16,7 +16,7 @@ public class CourseModel {
     // Example: Emerging Diseases
     private String courseTitle;
     private String courseInstructor;
-    private int creditHours;
+    private String creditHours;
     private String meetDays;
     private String meetTime;
     // Use the following two attributes to calculate seats available
@@ -42,7 +42,7 @@ public class CourseModel {
      * @param status If the course is open for enrollment or not e.g. Open, Closed
      */
     public CourseModel(int id, int CRN, String courseID, String courseAttribute, String courseTitle,
-                       String courseInstructor, int creditHours, String meetDays, String meetTime,
+                       String courseInstructor, String creditHours, String meetDays, String meetTime,
                        int projectedEnrollment, int currentEnrollment, String status) {
         this.id = id;
         this.CRN = CRN;
@@ -57,6 +57,17 @@ public class CourseModel {
         this.currentEnrollment = currentEnrollment;
         this.status = status;
     }
+
+    /**
+     * "Empty" constructor to declare but not fully instantiate a CourseModel object
+     * Useful for when the object's fields are not ready to be populated all at once.
+     *
+     * @param id the id (primary key) of the course in the database
+     */
+    public CourseModel(int id){
+        this.id = id;
+    }
+
 
     // Getters and setters
     public int getId() {
@@ -107,11 +118,11 @@ public class CourseModel {
         this.courseInstructor = courseInstructor;
     }
 
-    public int getCreditHours() {
+    public String getCreditHours() {
         return creditHours;
     }
 
-    public void setCreditHours(int creditHours) {
+    public void setCreditHours(String creditHours) {
         this.creditHours = creditHours;
     }
 

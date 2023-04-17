@@ -59,7 +59,7 @@ public class DataAccessObjectTest {
 
         // create a new course object to insert into the database
         CourseModel courseModel = new CourseModel(0, 12345, "CS101", "NQR" ,"Intro to CS", "John Smith",
-                3, "MWF", "10:00-11:00", 50, 25, "Open");
+                "3", "MWF", "10:00-11:00", 50, 25, "Open");
 
         // insert the course object into the database
         dataAccessObject.addOne(courseModel);
@@ -79,7 +79,7 @@ public class DataAccessObjectTest {
     public void testGetMatchingCourses() {
         // create a new course object to insert into the database
         CourseModel courseModel = new CourseModel(0, 12345, "CS101", "NQR" ,"Intro to CS", "John Smith",
-                3, "MWF", "10:00-11:00", 50, 25, "Open");
+                "3", "MWF", "10:00-11:00", 50, 25, "Open");
 
         // insert the course object into the database
         dataAccessObject.addOne(courseModel);

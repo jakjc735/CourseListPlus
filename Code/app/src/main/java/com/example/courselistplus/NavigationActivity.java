@@ -1,34 +1,38 @@
 package com.example.courselistplus;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
-import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.courselistplus.databinding.ActivityNavigationBinding;
+import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.io.IOException;
+import java.util.List;
 
 public class NavigationActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityNavigationBinding binding;
+    private String url;
+    private DataAccessObject dataAccessObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        binding = ActivityNavigationBinding.inflate(getLayoutInflater());
+        ActivityNavigationBinding binding = ActivityNavigationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarNavigation.toolbar);
@@ -45,40 +49,15 @@ public class NavigationActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        // Hard-coded courses to prepopulate the database on every run
-        CourseModel emergingDiseases = new CourseModel(-1, 21621,
-                "CHEM 150 01", "C150", "Emerging Diseases",
-                "Sher, Beverly", 4, "MWF", "1200-1250",
-                17, 16, "Open");
-        CourseModel entrepreneurshipInCS = new CourseModel(-1, 24354,
-                "CSCI 425 01", "C400, IN", "Entrepreneurship in CS",
-                "Kemper, Peter", 3, "TR", "1100-1220",
-                45, 44, "Open");
-        CourseModel dataMining = new CourseModel(-1, 27294,
-                "CSCI 436 01", "None", "Data Mining",
-                "Shao, Huajie", 3, "MW", "1400-1520",
-                40, 27, "Open");
-        CourseModel operatingSystems = new CourseModel(-1, 25722,
-                "CSCI 444 01", "None", "Operating Systems",
-                "Kumar, Pradeep", 3, "TR", "1230-1350",
-                40, 35, "Open");
-        CourseModel computerAndNetworkSecurity = new CourseModel(-1, 24957,
-                "CSCI 454 01", "None", "Computer and Network Security",
-                "Evtyushkin, Dmitry", 3, "TR", "1400-1520",
-                40, 34, "Open");
+        // Instantiate the database
+        dataAccessObject = new DataAccessObject(NavigationActivity.this);
 
-        DataAccessObject dataAccessObject = new DataAccessObject(this);
-        ArrayList<CourseModel> courseModelList = new ArrayList<CourseModel>(){{
-            add(emergingDiseases);
-            add(entrepreneurshipInCS);
-            add(dataMining);
-            add(operatingSystems);
-            add(computerAndNetworkSecurity);
-        }};
-
-        for(int i = 0; i < 5; i++){
-            dataAccessObject.addOne(courseModelList.get(i));
-        }
+        // Call asynchronous task to populate the database from open course list website
+        Content content = new Content();
+        url = "https://courselist.wm.edu/courselist/courseinfo/searchresults?" +
+                "term_code=202320&term_subj=CSCI&attr=0&attr2=0&levl=0&status=0&ptrm=0&" +
+                "search=Search";
+        content.execute();
     }
 
     @Override
@@ -93,5 +72,63 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private class Content extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                //Connect to the website
+                Document document = Jsoup.connect(url).get();
+                List<Element> results = document.select("table tr");
+
+                Log.d("myTag", "Webscrape begin");
+                // Code to populate the database with CS courses from W&M's open course list
+                for(Element row: results.subList(1, results.size())){
+                    CourseModel currentCourse = new CourseModel(-1);
+                    currentCourse.setCRN(Integer.parseInt(row.select("td:nth-of-type(1)").text()));
+                    currentCourse.setCourseID(row.select("td:nth-of-type(2)").text());
+                    currentCourse.setCourseAttribute(row.select("td:nth-of-type(3)").text());
+                    currentCourse.setCourseTitle(row.select("td:nth-of-type(4)").text());
+                    currentCourse.setCourseInstructor(row.select("td:nth-of-type(5)").text());
+                    currentCourse.setCreditHours(row.select("td:nth-of-type(6)").text());
+
+                    // Meet days and meet times are given together on the Open Course List
+                    // The format is DDD:HHMM-HHMM where D are the meet days and HHMM-HHMM is the meet time
+                    // in military time. Thus splitting on the colon separates the two for use in the CourseModel
+                    // NOTE: Some courses don't have meet days/times like "Directed Study" courses, ignore those
+                    if(!row.select("td:nth-of-type(7)").text().isEmpty()){
+
+                        String[] meetDaysAndTimes = row.select("td:nth-of-type(7)").text().split(":");
+                        currentCourse.setMeetDays(meetDaysAndTimes[0]);
+                        currentCourse.setMeetTime(meetDaysAndTimes[1]);
+                    } else{
+                        currentCourse.setMeetDays("");
+                        currentCourse.setMeetTime("");
+                    }
+
+                    currentCourse.setProjectedEnrollment(Integer.parseInt(row.select("td:nth-of-type(8)").text()));
+                    currentCourse.setCurrentEnrollment(Integer.parseInt(row.select("td:nth-of-type(9)").text()));
+                    currentCourse.setStatus(row.select("td:nth-of-type(11)").text());
+
+                    dataAccessObject.addOne(currentCourse);
+                }
+                Log.d("myTag", "Webscrape end");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
     }
 }

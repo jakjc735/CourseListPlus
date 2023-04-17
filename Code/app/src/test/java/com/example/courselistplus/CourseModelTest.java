@@ -19,7 +19,7 @@ public class CourseModelTest {
     public void testCourseModelConstructorAndGetters() {
         // Create a new CourseModel object
         CourseModel course = new CourseModel(1, 12345, "CS 101", "A1", "Intro to Computer Science",
-                "John Smith", 3, "MW", "10:00 AM - 11:15 AM", 50, 25, "Open");
+                "John Smith", "3", "MW", "10:00 AM - 11:15 AM", 50, 25, "Open");
 
         // Test the getters for all the attributes
         assertEquals(1, course.getId());
@@ -28,7 +28,7 @@ public class CourseModelTest {
         assertEquals("A1", course.getCourseAttribute());
         assertEquals("Intro to Computer Science", course.getCourseTitle());
         assertEquals("John Smith", course.getCourseInstructor());
-        assertEquals(3, course.getCreditHours());
+        assertEquals("3", course.getCreditHours());
         assertEquals("MW", course.getMeetDays());
         assertEquals("10:00 AM - 11:15 AM", course.getMeetTime());
         assertEquals(50, course.getProjectedEnrollment());
@@ -44,7 +44,7 @@ public class CourseModelTest {
     public void testCourseModelSetters() {
         // Create a new CourseModel object
         CourseModel course = new CourseModel(1, 12345, "CS 101", "A1", "Intro to Computer Science",
-                "John Smith", 3, "MW", "10:00 AM - 11:15 AM", 50, 25, "Open");
+                "John Smith", "3", "MW", "10:00 AM - 11:15 AM", 50, 25, "Open");
 
         // Test the setters for all the attributes
         course.setId(2);
@@ -65,8 +65,8 @@ public class CourseModelTest {
         course.setCourseInstructor("Jane Doe");
         assertEquals("Jane Doe", course.getCourseInstructor());
 
-        course.setCreditHours(4);
-        assertEquals(4, course.getCreditHours());
+        course.setCreditHours("4");
+        assertEquals("4", course.getCreditHours());
 
         course.setMeetDays("TR");
         assertEquals("TR", course.getMeetDays());
