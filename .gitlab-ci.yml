@@ -73,12 +73,12 @@ before_script:
 build:
   stage: build
   script:
-    - cd Code
+    # - cd Code
     - ./gradlew assembleDebug
 
 test:
   stage: test
   script:
-    - cd Code
+    # - cd Code
     - ./gradlew testDebug
 
