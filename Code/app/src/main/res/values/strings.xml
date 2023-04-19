@@ -10,7 +10,10 @@
     <string name="menu_calendar">Calendar</string>
     <string name="menu_courses">Course List</string>
     <string name="Search">Search</string>
+    <string name="AddButton">Add Course</string>
+    <string name="RateButton">Rate Course</string>
     <string name="filterToApply">Filter To Apply</string>
+
     <string-array name="search_options">
         <item>CRN</item>
         <item>Credits</item>

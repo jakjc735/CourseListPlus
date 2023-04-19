@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -56,6 +57,14 @@ public class CourseListFragment extends Fragment {
             ArrayAdapter courseArrayAdapter = new ArrayAdapter<CourseModel>(
                     root.getContext(), android.R.layout.simple_list_item_1, searchResults);
             coursesListView.setAdapter(courseArrayAdapter);
+
+            coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+
+                    Toast.makeText(getActivity().getApplicationContext(), "you did a thing", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         return root;
