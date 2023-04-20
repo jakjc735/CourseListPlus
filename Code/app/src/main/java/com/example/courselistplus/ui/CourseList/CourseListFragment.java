@@ -2,6 +2,7 @@ package com.example.courselistplus.ui.CourseList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +55,13 @@ public class CourseListFragment extends Fragment {
             DataAccessObject dataAccessObject = new DataAccessObject(root.getContext());
             List<CourseModel> searchResults = dataAccessObject.getMatchingCourses(filterSpinner.getSelectedItem().toString(), querySearchView.getQuery().toString());
 
+            Log.d("Search Results", searchResults.toString());
+
             ArrayAdapter courseArrayAdapter = new ArrayAdapter<CourseModel>(
                     root.getContext(), android.R.layout.simple_list_item_1, searchResults);
             coursesListView.setAdapter(courseArrayAdapter);
+
+
 
             coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
