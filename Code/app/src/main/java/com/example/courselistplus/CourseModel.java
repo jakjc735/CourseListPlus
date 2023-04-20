@@ -184,4 +184,6 @@ public class CourseModel {
                 ", status='" + status + '\'' +
                 '}';
     }
+
+
 }

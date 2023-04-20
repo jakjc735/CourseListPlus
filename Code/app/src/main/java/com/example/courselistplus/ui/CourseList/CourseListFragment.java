@@ -2,6 +2,7 @@ package com.example.courselistplus.ui.CourseList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,14 +70,21 @@ public class CourseListFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
 
-                    List<CourseModel> selectedItem = (List<CourseModel>) adapterView.getItemAtPosition(i);
+                     CourseModel selectedItem = (CourseModel) adapterView.getItemAtPosition(i);
 
-//                    Log.d("Selected Item", selectedItem);
+                    Log.d("Selected Item", selectedItem.toString());
 
 
                     Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
-                    myIntent.putExtra("selectedItem", (CharSequence) selectedItem);
+                    myIntent.putExtra("selectedItem", selectedItem.getCourseTitle());
+                    myIntent.putExtra("selectedItem", selectedItem.getCourseID());
+                    myIntent.putExtra("selectedItem", selectedItem.getCourseInstructor());
+                    myIntent.putExtra("selectedItem", selectedItem.getMeetTime());
+
                     startActivity(myIntent);
+
+                    Log.d("Selected Item", selectedItem.getCourseTitle());
+                    Log.d("Selected Item", selectedItem.getCourseID());
 
 
 
