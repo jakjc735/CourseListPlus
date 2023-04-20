@@ -1,5 +1,7 @@
 package com.example.courselistplus;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * The class definition for the course objects
  *
@@ -24,6 +26,10 @@ public class CourseModel {
     private int currentEnrollment;
     // Example: Open
     private String status;
+    // Total number of stars received across all ratings from all students
+    private int totalRating;
+    // Total number of students who have left a rating. Helps to calculate average/overall rating
+    private int numRatings;
 
     /**
      * Course object constructor
@@ -56,6 +62,13 @@ public class CourseModel {
         this.projectedEnrollment = projectedEnrollment;
         this.currentEnrollment = currentEnrollment;
         this.status = status;
+
+        // We are randomly generating ratings for each course since we do not have this data yet
+        numRatings = ThreadLocalRandom.current().nextInt(1, 11);
+        // Need to generate numRatings number of random course ratings, 1-5
+        for(int i = 0; i < numRatings; i++){
+            totalRating += ThreadLocalRandom.current().nextInt(1,6);
+        }
     }
 
     /**
@@ -66,8 +79,14 @@ public class CourseModel {
      */
     public CourseModel(int id){
         this.id = id;
-    }
 
+        // We are randomly generating ratings for each course since we do not have this data yet
+        numRatings = ThreadLocalRandom.current().nextInt(1, 11);
+        // Need to generate numRatings number of random course ratings, 1-5
+        for(int i = 0; i < numRatings; i++){
+            totalRating += ThreadLocalRandom.current().nextInt(1,6);
+        }
+    }
 
     // Getters and setters
     public int getId() {
@@ -166,7 +185,19 @@ public class CourseModel {
         this.status = status;
     }
 
-    // toString
+    public int getOverallRating(){
+        // This performs int division and truncates
+        //TODO @abdihassan Make the rating more precise
+        return this.totalRating/this.numRatings;
+    }
+
+    public void addRating(int courseRating){
+        if((1 <= courseRating) && (courseRating <= 5)){
+            this.totalRating += courseRating;
+            this.numRatings += 1;
+        }
+    }
+
     @Override
     public String toString() {
         return "CourseModel{" +
@@ -176,12 +207,13 @@ public class CourseModel {
                 ", courseAttribute='" + courseAttribute + '\'' +
                 ", courseTitle='" + courseTitle + '\'' +
                 ", courseInstructor='" + courseInstructor + '\'' +
-                ", creditHours=" + creditHours +
+                ", creditHours='" + creditHours + '\'' +
                 ", meetDays='" + meetDays + '\'' +
                 ", meetTime='" + meetTime + '\'' +
                 ", projectedEnrollment=" + projectedEnrollment +
                 ", currentEnrollment=" + currentEnrollment +
                 ", status='" + status + '\'' +
+                ", courseRating=" + this.getOverallRating() +
                 '}';
     }
 }
