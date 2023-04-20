@@ -1,5 +1,6 @@
 package com.example.courselistplus.ui.CourseList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +11,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.courselistplus.CourseModel;
+import com.example.courselistplus.CourseViewActivity;
 import com.example.courselistplus.DataAccessObject;
 import com.example.courselistplus.R;
 import com.example.courselistplus.databinding.FragmentCourselistBinding;
@@ -62,7 +62,9 @@ public class CourseListFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
 
-                    Toast.makeText(getActivity().getApplicationContext(), "you did a thing", Toast.LENGTH_SHORT).show();
+                    Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
+                    startActivity(myIntent);
+
                 }
             });
         });
