@@ -2,7 +2,6 @@ package com.example.courselistplus;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +24,6 @@ import java.util.List;
 public class NavigationActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private String url;
     private DataAccessObject dataAccessObject;
 
     @Override
@@ -54,9 +52,6 @@ public class NavigationActivity extends AppCompatActivity {
 
         // Call asynchronous task to populate the database from open course list website
         Content content = new Content();
-        url = "https://courselist.wm.edu/courselist/courseinfo/searchresults?" +
-                "term_code=202320&term_subj=CSCI&attr=0&attr2=0&levl=0&status=0&ptrm=0&" +
-                "search=Search";
         content.execute();
     }
 
@@ -84,42 +79,57 @@ public class NavigationActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
+                // We know our starting point, the open course list webpage, and its URL,
+                // however, we will generate the URLs for the subject pages programmatically
+                String openCourseListHomePageUrl = "https://courselist.wm.edu/" +
+                        "courselist/courseinfo/search?";
+                String currentSubjectPageUrl;
                 //Connect to the website
-                Document document = Jsoup.connect(url).get();
-                List<Element> results = document.select("table tr");
+                Document openCourseListHomePage = Jsoup.connect(openCourseListHomePageUrl).get();
 
-                Log.d("myTag", "Webscrape begin");
-                // Code to populate the database with CS courses from W&M's open course list
-                for(Element row: results.subList(1, results.size())){
-                    CourseModel currentCourse = new CourseModel(-1);
-                    currentCourse.setCRN(Integer.parseInt(row.select("td:nth-of-type(1)").text()));
-                    currentCourse.setCourseID(row.select("td:nth-of-type(2)").text());
-                    currentCourse.setCourseAttribute(row.select("td:nth-of-type(3)").text());
-                    currentCourse.setCourseTitle(row.select("td:nth-of-type(4)").text());
-                    currentCourse.setCourseInstructor(row.select("td:nth-of-type(5)").text());
-                    currentCourse.setCreditHours(row.select("td:nth-of-type(6)").text());
+                for(int i = 2; i < 75; i++){
+                    // The url for a particular subject's open course list page is formulaic.
+                    // Setting the term_subj= with the correct subject tag will yield the desired url.
+                    currentSubjectPageUrl = "https://courselist.wm.edu/courselist/courseinfo/searchresults?term_code=202320&term_subj="
+                            + openCourseListHomePage.select("#term_subj > option:nth-child(" + i + ")").val() +
+                            "&attr=0&attr2=0&levl=0&status=0&ptrm=0&search=Search";
 
-                    // Meet days and meet times are given together on the Open Course List
-                    // The format is DDD:HHMM-HHMM where D are the meet days and HHMM-HHMM is the meet time
-                    // in military time. Thus splitting on the colon separates the two for use in the CourseModel
-                    // NOTE: Some courses don't have meet days/times like "Directed Study" courses, ignore those
-                    if(!row.select("td:nth-of-type(7)").text().isEmpty()){
+                    Document currentSubjectPage = Jsoup.connect(currentSubjectPageUrl).get();
 
-                        String[] meetDaysAndTimes = row.select("td:nth-of-type(7)").text().split(":");
-                        currentCourse.setMeetDays(meetDaysAndTimes[0]);
-                        currentCourse.setMeetTime(meetDaysAndTimes[1]);
-                    } else{
-                        currentCourse.setMeetDays("");
-                        currentCourse.setMeetTime("");
+                    // results is the table of courses associated with the current subject/department
+                    List<Element> results = currentSubjectPage.select("table tr");
+
+                    // Code to populate the database with courses from W&M's open course list
+                    for(Element row: results.subList(1, results.size())){
+                        CourseModel currentCourse = new CourseModel(-1);
+                        currentCourse.setCRN(Integer.parseInt(row.select("td:nth-of-type(1)").text()));
+                        currentCourse.setCourseID(row.select("td:nth-of-type(2)").text());
+                        currentCourse.setCourseAttribute(row.select("td:nth-of-type(3)").text());
+                        currentCourse.setCourseTitle(row.select("td:nth-of-type(4)").text());
+                        currentCourse.setCourseInstructor(row.select("td:nth-of-type(5)").text());
+                        currentCourse.setCreditHours(row.select("td:nth-of-type(6)").text());
+
+                        // Meet days and meet times are given together on the Open Course List
+                        // The format is DDD:HHMM-HHMM where D are the meet days and HHMM-HHMM is the meet time
+                        // in military time. Thus splitting on the colon separates the two for use in the CourseModel
+                        // NOTE: Some courses don't have meet days/times like "Directed Study" courses, ignore those
+                        if(!row.select("td:nth-of-type(7)").text().isEmpty()){
+
+                            String[] meetDaysAndTimes = row.select("td:nth-of-type(7)").text().split(":");
+                            currentCourse.setMeetDays(meetDaysAndTimes[0]);
+                            currentCourse.setMeetTime(meetDaysAndTimes[1]);
+                        } else{
+                            currentCourse.setMeetDays("");
+                            currentCourse.setMeetTime("");
+                        }
+
+                        currentCourse.setProjectedEnrollment(Integer.parseInt(row.select("td:nth-of-type(8)").text()));
+                        currentCourse.setCurrentEnrollment(Integer.parseInt(row.select("td:nth-of-type(9)").text()));
+                        currentCourse.setStatus(row.select("td:nth-of-type(11)").text());
+
+                        dataAccessObject.addOne(currentCourse);
                     }
-
-                    currentCourse.setProjectedEnrollment(Integer.parseInt(row.select("td:nth-of-type(8)").text()));
-                    currentCourse.setCurrentEnrollment(Integer.parseInt(row.select("td:nth-of-type(9)").text()));
-                    currentCourse.setStatus(row.select("td:nth-of-type(11)").text());
-
-                    dataAccessObject.addOne(currentCourse);
                 }
-                Log.d("myTag", "Webscrape end");
             } catch (IOException e) {
                 e.printStackTrace();
             }
