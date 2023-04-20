@@ -2,6 +2,7 @@ package com.example.courselistplus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,5 +35,7 @@ public class CourseViewActivity extends AppCompatActivity {
         instructor = findViewById(R.id.Instructor);
         courseTime = findViewById(R.id.CourseTime);
         courseDescription = findViewById(R.id.CourseDescription);
+
+
     }
 }

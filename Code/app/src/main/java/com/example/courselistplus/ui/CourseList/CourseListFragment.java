@@ -75,6 +75,9 @@ public class CourseListFragment extends Fragment {
                     Log.d("Selected Item", selectedItem.toString());
 
 
+
+
+
                     Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
                     myIntent.putExtra("selectedItem", selectedItem.getCourseTitle());
                     myIntent.putExtra("selectedItem", selectedItem.getCourseID());
@@ -83,8 +86,6 @@ public class CourseListFragment extends Fragment {
 
                     startActivity(myIntent);
 
-                    Log.d("Selected Item", selectedItem.getCourseTitle());
-                    Log.d("Selected Item", selectedItem.getCourseID());
 
 
 
