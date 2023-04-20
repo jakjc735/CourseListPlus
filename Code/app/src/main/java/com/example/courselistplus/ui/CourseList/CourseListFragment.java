@@ -55,11 +55,13 @@ public class CourseListFragment extends Fragment {
             DataAccessObject dataAccessObject = new DataAccessObject(root.getContext());
             List<CourseModel> searchResults = dataAccessObject.getMatchingCourses(filterSpinner.getSelectedItem().toString(), querySearchView.getQuery().toString());
 
-            Log.d("Search Results", searchResults.toString());
+
 
             ArrayAdapter courseArrayAdapter = new ArrayAdapter<CourseModel>(
                     root.getContext(), android.R.layout.simple_list_item_1, searchResults);
             coursesListView.setAdapter(courseArrayAdapter);
+
+            Log.d("Search Results", searchResults.toString());
 
 
 
@@ -67,8 +69,20 @@ public class CourseListFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
 
+                    String selectedItem = adapterView.getItemAtPosition(i).toString();
+
+                    Log.d("Selected Item", selectedItem);
+
+
                     Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
+                    myIntent.putExtra("selectedItem", selectedItem);
                     startActivity(myIntent);
+
+
+
+
+
+
 
                 }
             });
