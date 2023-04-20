@@ -69,13 +69,13 @@ public class CourseListFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
 
-                    String selectedItem = adapterView.getItemAtPosition(i).toString();
+                    List<CourseModel> selectedItem = (List<CourseModel>) adapterView.getItemAtPosition(i);
 
-                    Log.d("Selected Item", selectedItem);
+//                    Log.d("Selected Item", selectedItem);
 
 
                     Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
-                    myIntent.putExtra("selectedItem", selectedItem);
+                    myIntent.putExtra("selectedItem", (CharSequence) selectedItem);
                     startActivity(myIntent);
 
 
