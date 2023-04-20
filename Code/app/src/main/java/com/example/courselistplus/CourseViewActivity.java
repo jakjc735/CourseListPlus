@@ -36,6 +36,15 @@ public class CourseViewActivity extends AppCompatActivity {
         courseTime = findViewById(R.id.CourseTime);
         courseDescription = findViewById(R.id.CourseDescription);
 
+        Intent intent = getIntent();
+        String courseTitleIntent = intent.getStringExtra("courseTitleIntent");
+        String courseIDIntent = intent.getStringExtra("courseIDIntent");
+        String courseInstructorIntent = intent.getStringExtra("courseInstructorIntent");
+        String courseMeetTimeIntent = intent.getStringExtra("courseMeetTimeIntent");
 
+        courseName.setText(courseTitleIntent);
+        courseId.setText(courseIDIntent);
+        instructor.setText(courseInstructorIntent);
+        courseTime.setText(courseMeetTimeIntent);
     }
 }
