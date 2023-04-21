@@ -16,6 +16,7 @@
 
     <string-array name="search_options">
         <item>CRN</item>
+        <item>Course Attribute</item>
         <item>Credits</item>
         <item>Meet Days</item>
         <item>Meet Times</item>

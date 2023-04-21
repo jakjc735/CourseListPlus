@@ -119,6 +119,9 @@ public class DataAccessObject extends SQLiteOpenHelper {
             case "CRN":
                 returnList = getMatchingCRN(query);
                 break;
+            case "Course Attribute":
+                returnList = getMatchingCourseAtrribute(query);
+                break;
             case "Credits":
                 returnList = getMatchingCredits(query);
                 break;
@@ -397,6 +400,58 @@ public class DataAccessObject extends SQLiteOpenHelper {
         try {
             String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " +
                     COLUMN_COURSE_INSTRUCTOR + "= \"" + query + "\"";
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor cursor = db.rawQuery(queryString, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    int coursePrimaryKey = cursor.getInt(0);
+                    int CRN = cursor.getInt(1);
+                    String courseID = cursor.getString(2);
+                    String courseAttribute = cursor.getString(3);
+                    String courseTitle = cursor.getString(4);
+                    String courseInstructor = cursor.getString(5);
+                    String creditHours = cursor.getString(6);
+                    String meetDays = cursor.getString(7);
+                    String meetTime = cursor.getString(8);
+                    int projectedEnrollment = cursor.getInt(9);
+                    int currentEnrollment = cursor.getInt(10);
+
+                    String status = cursor.getString(11);
+
+                    CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
+                            CRN, courseID, courseAttribute, courseTitle, courseInstructor,
+                            creditHours, meetDays, meetTime, projectedEnrollment,
+                            currentEnrollment, status);
+
+                    returnList.add(newCourseModel);
+                } while (cursor.moveToNext());
+            }
+
+            // close both the cursor and the db when done
+            cursor.close();
+            db.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return returnList;
+    }
+
+    /**
+     * Method to process the query of a user searching for a course by course attribute
+     *
+     * @param query the query the user typed into the search view on the UI, e.g. C200
+     * @return List of courses (Course Model objects) from the database matching the query
+     */
+    private List<CourseModel> getMatchingCourseAtrribute(String query){
+        List<CourseModel> returnList = new ArrayList<>();
+
+        // TODO: Add input validation (protect against invalid course attributes)
+        try {
+            String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " +
+                    COLUMN_COURSE_ATTRIBUTE + " LIKE \"%" + query + "%\"";
             SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
