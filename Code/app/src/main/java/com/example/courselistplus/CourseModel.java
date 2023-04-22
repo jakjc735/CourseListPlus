@@ -216,4 +216,6 @@ public class CourseModel {
                 ", courseRating=" + this.getOverallRating() +
                 '}';
     }
+
+
 }

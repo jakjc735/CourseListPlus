@@ -10,7 +10,10 @@
     <string name="menu_calendar">Calendar</string>
     <string name="menu_courses">Course List</string>
     <string name="Search">Search</string>
+    <string name="AddButton">Add Course</string>
+    <string name="RateButton">Rate Course</string>
     <string name="filterToApply">Filter To Apply</string>
+
     <string-array name="search_options">
         <item>CRN</item>
         <item>Course Attribute</item>
@@ -19,4 +22,13 @@
         <item>Meet Times</item>
         <item>Instructor</item>
     </string-array>
+    <string name="title_activity_course_view">CourseViewActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
