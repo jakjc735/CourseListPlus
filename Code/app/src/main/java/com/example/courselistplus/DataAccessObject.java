@@ -18,7 +18,9 @@ import java.util.List;
  */
 public class DataAccessObject extends SQLiteOpenHelper {
 
-    // String constants to save time/avoid errors when referring to database elements
+    // Constants to save time/avoid errors when referring to database elements
+    private static final int DATABASE_VERSION = 4;
+    private static final String DATABASE_NAME = "courses.db";
     private static final String COURSES_TABLE = "COURSES_TABLE";
     private static final String COLUMN_CRN = "CRN";
     private static final String COLUMN_COURSE_ID = "COURSE_ID";
@@ -31,6 +33,9 @@ public class DataAccessObject extends SQLiteOpenHelper {
     private static final String COLUMN_PROJECTED_ENROLLMENT = "PROJECTED_ENROLLEMENT";
     private static final String COLUMN_CURRENT_ENROLLMENT = "CURRENT_ENROLLMENT";
     private static final String COLUMN_STATUS = "STATUS";
+    private static final String COLUMN_TOTAL_RATING = "TOTAL_RATING";
+    private static final String COLUMN_NUM_RATINGS = "NUM_RATINGS";
+    private static final String COLUMN_COURSE_DESCRIPTION = "COURSE_DESCRIPTION";
 
     /**
      * Data Access Object (DAO) constructor
@@ -38,7 +43,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
      * @param context Application context to use for locating paths to the the database
      */
     public DataAccessObject(@Nullable Context context) {
-        super(context, "courses.db", null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     /**
@@ -52,7 +57,8 @@ public class DataAccessObject extends SQLiteOpenHelper {
                 + COLUMN_CRN + " INT, " + COLUMN_COURSE_ID + " TEXT, " + COLUMN_COURSE_ATTRIBUTE + " TEXT, " +
                 COLUMN_COURSE_TITLE + " TEXT, " + COLUMN_COURSE_INSTRUCTOR + " TEXT, " + COLUMN_CREDIT_HOURS +
                 " INT, " + COLUMN_MEET_DAYS + " TEXT, " + COLUMN_MEET_TIME + " TEXT, " + COLUMN_PROJECTED_ENROLLMENT
-                + " INT, " + COLUMN_CURRENT_ENROLLMENT + " INT, " + COLUMN_STATUS + " TEXT)";
+                + " INT, " + COLUMN_CURRENT_ENROLLMENT + " INT, " + COLUMN_STATUS + " TEXT, " + COLUMN_TOTAL_RATING
+                + " INT, " + COLUMN_NUM_RATINGS + " INT, " + COLUMN_COURSE_DESCRIPTION + " TEXT)";
 
         sqLiteDatabase.execSQL(createTableStatement);
     }
@@ -61,12 +67,15 @@ public class DataAccessObject extends SQLiteOpenHelper {
      * Unused method, typically intended to store code regarding updates to the database version.
      *
      * @param sqLiteDatabase The database.
-     * @param i The old database version.
-     * @param i1 The new database version.
+     * @param oldVersion The old database version.
+     * @param newVersion The new database version.
      */
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        if (newVersion > oldVersion) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + COURSES_TABLE);
+            onCreate(sqLiteDatabase);
+        }
     }
 
     /**
@@ -96,12 +105,16 @@ public class DataAccessObject extends SQLiteOpenHelper {
             cv.put(COLUMN_PROJECTED_ENROLLMENT, courseModel.getProjectedEnrollment());
             cv.put(COLUMN_CURRENT_ENROLLMENT, courseModel.getCurrentEnrollment());
             cv.put(COLUMN_STATUS, courseModel.getStatus());
+            cv.put(COLUMN_TOTAL_RATING, courseModel.getTotalRating());
+            cv.put(COLUMN_NUM_RATINGS, courseModel.getNumRatings());
+            cv.put(COLUMN_COURSE_DESCRIPTION, courseModel.getCourseDescription());
 
             // insert method returns success or failure (-1), can use to check success
             db.insert(COURSES_TABLE, null, cv);
         }
 
         cursor.close();
+        db.close();
     }
 
     /**
@@ -120,7 +133,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
                 returnList = getMatchingCRN(query);
                 break;
             case "Course Attribute":
-                returnList = getMatchingCourseAtrribute(query);
+                returnList = getMatchingCourseAttribute(query);
                 break;
             case "Credits":
                 returnList = getMatchingCredits(query);
@@ -166,11 +179,14 @@ public class DataAccessObject extends SQLiteOpenHelper {
                 int projectedEnrollment = cursor.getInt(9);
                 int currentEnrollment = cursor.getInt(10);
                 String status = cursor.getString(11);
+                int totalRating = cursor.getInt(12);
+                int numRatings = cursor.getInt(13);
+                String courseDescription = cursor.getString(14);
 
                 CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                         CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                         creditHours, meetDays, meetTime, projectedEnrollment,
-                        currentEnrollment, status);
+                        currentEnrollment, status, totalRating, numRatings, courseDescription);
 
                 returnList.add(newCourseModel);
             } while(cursor.moveToNext());
@@ -214,11 +230,14 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     int projectedEnrollment = cursor.getInt(9);
                     int currentEnrollment = cursor.getInt(10);
                     String status = cursor.getString(11);
+                    int totalRating = cursor.getInt(12);
+                    int numRatings = cursor.getInt(13);
+                    String courseDescription = cursor.getString(14);
 
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status);
+                            currentEnrollment, status, totalRating, numRatings, courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -241,13 +260,12 @@ public class DataAccessObject extends SQLiteOpenHelper {
      */
     private List<CourseModel> getMatchingCredits(String query){
         List<CourseModel> returnList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         // TODO: Add input validation (protect against invalid Credits)
         try {
             String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_CREDIT_HOURS +
                     "= \"" + query + "\"";
-
-            SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
 
@@ -265,11 +283,14 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     int projectedEnrollment = cursor.getInt(9);
                     int currentEnrollment = cursor.getInt(10);
                     String status = cursor.getString(11);
+                    int totalRating = cursor.getInt(12);
+                    int numRatings = cursor.getInt(13);
+                    String courseDescription = cursor.getString(14);
 
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status);
+                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -283,6 +304,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
+        db.close();
         return returnList;
     }
 
@@ -294,12 +316,12 @@ public class DataAccessObject extends SQLiteOpenHelper {
      */
     private List<CourseModel> getMatchingMeetDays(String query){
         List<CourseModel> returnList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         // TODO: Add input validation (protect against invalid Meeting Days)
         try {
             String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_MEET_DAYS +
                     "= \"" + query + "\"";
-            SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
 
@@ -317,11 +339,14 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     int projectedEnrollment = cursor.getInt(9);
                     int currentEnrollment = cursor.getInt(10);
                     String status = cursor.getString(11);
+                    int totalRating = cursor.getInt(12);
+                    int numRatings = cursor.getInt(13);
+                    String courseDescription = cursor.getString(14);
 
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status);
+                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -329,11 +354,12 @@ public class DataAccessObject extends SQLiteOpenHelper {
 
             // close both the cursor and the db when done
             cursor.close();
-            db.close();
 
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        db.close();
         return returnList;
     }
 
@@ -345,12 +371,12 @@ public class DataAccessObject extends SQLiteOpenHelper {
      */
     private List<CourseModel> getMatchingMeetTime(String query){
         List<CourseModel> returnList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         // TODO: Add input validation (protect against invalid Meeting Times)
         try {
             String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_MEET_TIME +
                     "= \"" + query + "\"";
-            SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
 
@@ -368,11 +394,14 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     int projectedEnrollment = cursor.getInt(9);
                     int currentEnrollment = cursor.getInt(10);
                     String status = cursor.getString(11);
+                    int totalRating = cursor.getInt(12);
+                    int numRatings = cursor.getInt(13);
+                    String courseDescription = cursor.getString(14);
 
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status);
+                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -384,6 +413,8 @@ public class DataAccessObject extends SQLiteOpenHelper {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+        db.close();
         return returnList;
     }
 
@@ -395,12 +426,12 @@ public class DataAccessObject extends SQLiteOpenHelper {
      */
     private List<CourseModel> getMatchingInstructor(String query){
         List<CourseModel> returnList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         // TODO: Add input validation (protect against invalid Instructors)
         try {
             String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " +
                     COLUMN_COURSE_INSTRUCTOR + "= \"" + query + "\"";
-            SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
 
@@ -417,13 +448,15 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
                     int currentEnrollment = cursor.getInt(10);
-
                     String status = cursor.getString(11);
+                    int totalRating = cursor.getInt(12);
+                    int numRatings = cursor.getInt(13);
+                    String courseDescription = cursor.getString(14);
 
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status);
+                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -436,6 +469,8 @@ public class DataAccessObject extends SQLiteOpenHelper {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        db.close();
         return returnList;
     }
 
@@ -445,14 +480,14 @@ public class DataAccessObject extends SQLiteOpenHelper {
      * @param query the query the user typed into the search view on the UI, e.g. C200
      * @return List of courses (Course Model objects) from the database matching the query
      */
-    private List<CourseModel> getMatchingCourseAtrribute(String query){
+    private List<CourseModel> getMatchingCourseAttribute(String query){
         List<CourseModel> returnList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         // TODO: Add input validation (protect against invalid course attributes)
         try {
             String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " +
                     COLUMN_COURSE_ATTRIBUTE + " LIKE \"%" + query + "%\"";
-            SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.rawQuery(queryString, null);
 
@@ -469,13 +504,15 @@ public class DataAccessObject extends SQLiteOpenHelper {
                     String meetTime = cursor.getString(8);
                     int projectedEnrollment = cursor.getInt(9);
                     int currentEnrollment = cursor.getInt(10);
-
                     String status = cursor.getString(11);
+                    int totalRating = cursor.getInt(12);
+                    int numRatings = cursor.getInt(13);
+                    String courseDescription = cursor.getString(14);
 
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status);
+                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -483,11 +520,12 @@ public class DataAccessObject extends SQLiteOpenHelper {
 
             // close both the cursor and the db when done
             cursor.close();
-            db.close();
 
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        db.close();
         return returnList;
     }
 }

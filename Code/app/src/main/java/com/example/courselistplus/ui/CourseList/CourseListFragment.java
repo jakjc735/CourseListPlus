@@ -2,18 +2,16 @@ package com.example.courselistplus.ui.CourseList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -79,6 +77,7 @@ public class CourseListFragment extends Fragment {
                     myIntent.putExtra("courseIDIntent", selectedItem.getCourseID());
                     myIntent.putExtra("courseInstructorIntent", selectedItem.getCourseInstructor());
                     myIntent.putExtra("courseMeetTimeIntent", selectedItem.getMeetTime());
+                    myIntent.putExtra("courseDescriptionIntent", selectedItem.getCourseDescription());
 
                     startActivity(myIntent);
 

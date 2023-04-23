@@ -1,5 +1,8 @@
 package com.example.courselistplus.ui.Calendar;
 
+import static com.example.courselistplus.ui.Calendar.CalendarUtils.daysInMonthArray;
+import static com.example.courselistplus.ui.Calendar.CalendarUtils.monthYearFromDate;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -22,12 +24,7 @@ import com.example.courselistplus.WeekActivity;
 import com.example.courselistplus.databinding.FragmentCalendarBinding;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-import static com.example.courselistplus.ui.Calendar.CalendarUtils.daysInMonthArray;
-import static com.example.courselistplus.ui.Calendar.CalendarUtils.monthYearFromDate;
 
 /**
  * Class that constructs the monthly calendar view

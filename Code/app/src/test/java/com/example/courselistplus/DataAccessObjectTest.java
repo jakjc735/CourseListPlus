@@ -1,16 +1,13 @@
 package com.example.courselistplus;
 
+import static org.junit.Assert.assertTrue;
+
+import android.content.Context;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
-
-import android.content.Context;
-
-import com.example.courselistplus.CourseModel;
-import com.example.courselistplus.DataAccessObject;
 
 import java.util.List;
 
@@ -58,8 +55,10 @@ public class DataAccessObjectTest {
     public void testGetAllCourses() {
 
         // create a new course object to insert into the database
-        CourseModel courseModel = new CourseModel(0, 12345, "CS101", "NQR" ,"Intro to CS", "John Smith",
-                "3", "MWF", "10:00-11:00", 50, 25, "Open");
+        CourseModel courseModel = new CourseModel(0, 12345, "CS101",
+                "NQR" ,"Intro to CS", "John Smith",
+                "3", "MWF", "10:00-11:00", 50,
+                25, "Open",20, 5, "Sample course description");
 
         // insert the course object into the database
         dataAccessObject.addOne(courseModel);
@@ -78,8 +77,10 @@ public class DataAccessObjectTest {
     @Test
     public void testGetMatchingCourses() {
         // create a new course object to insert into the database
-        CourseModel courseModel = new CourseModel(0, 12345, "CS101", "NQR" ,"Intro to CS", "John Smith",
-                "3", "MWF", "10:00-11:00", 50, 25, "Open");
+        CourseModel courseModel = new CourseModel(0, 12345, "CS101",
+                "NQR" ,"Intro to CS", "John Smith",
+                "3", "MWF", "10:00-11:00", 50, 25,
+                "Open",20, 5, "Sample course description");
 
         // insert the course object into the database
         dataAccessObject.addOne(courseModel);

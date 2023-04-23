@@ -20,6 +20,7 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -43,7 +44,8 @@ public class NavigationActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_gallery)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
+        NavController navController = Navigation.findNavController(
+                this, R.id.nav_host_fragment_content_navigation);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -64,7 +66,8 @@ public class NavigationActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
+        NavController navController = Navigation.findNavController(this,
+                R.id.nav_host_fragment_content_navigation);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
@@ -81,52 +84,72 @@ public class NavigationActivity extends AppCompatActivity {
             try {
                 // We know our starting point, the open course list webpage, and its URL,
                 // however, we will generate the URLs for the subject pages programmatically
-                String openCourseListHomePageUrl = "https://courselist.wm.edu/" +
+                String openCourseListHomePageURL = "https://courselist.wm.edu/" +
                         "courselist/courseinfo/search?";
-                String currentSubjectPageUrl;
+                String currentSubjectPageURL;
+                String currentCourseCourseDescriptionPageURL;
                 //Connect to the website
-                Document openCourseListHomePage = Jsoup.connect(openCourseListHomePageUrl).get();
+                Document openCourseListHomePage = Jsoup.connect(openCourseListHomePageURL).get();
 
                 for(int i = 2; i < 75; i++){
                     // The url for a particular subject's open course list page is formulaic.
                     // Setting the term_subj= with the correct subject tag will yield the desired url.
-                    currentSubjectPageUrl = "https://courselist.wm.edu/courselist/courseinfo/searchresults?term_code=202320&term_subj="
-                            + openCourseListHomePage.select("#term_subj > option:nth-child(" + i + ")").val() +
+                    currentSubjectPageURL = "https://courselist.wm.edu/courselist/courseinfo/searchresults?" +
+                            "term_code=202320&term_subj=" + openCourseListHomePage.select(
+                                    "#term_subj > option:nth-child(" + i + ")").val() +
                             "&attr=0&attr2=0&levl=0&status=0&ptrm=0&search=Search";
 
-                    Document currentSubjectPage = Jsoup.connect(currentSubjectPageUrl).get();
+                    Document currentSubjectPage = Jsoup.connect(currentSubjectPageURL).get();
 
                     // results is the table of courses associated with the current subject/department
                     List<Element> results = currentSubjectPage.select("table tr");
 
                     // Code to populate the database with courses from W&M's open course list
                     for(Element row: results.subList(1, results.size())){
-                        CourseModel currentCourse = new CourseModel(-1);
-                        currentCourse.setCRN(Integer.parseInt(row.select("td:nth-of-type(1)").text()));
-                        currentCourse.setCourseID(row.select("td:nth-of-type(2)").text());
-                        currentCourse.setCourseAttribute(row.select("td:nth-of-type(3)").text());
-                        currentCourse.setCourseTitle(row.select("td:nth-of-type(4)").text());
-                        currentCourse.setCourseInstructor(row.select("td:nth-of-type(5)").text());
-                        currentCourse.setCreditHours(row.select("td:nth-of-type(6)").text());
+                        int courseCRN = Integer.parseInt(row.select("td:nth-of-type(1)").text());
+                        currentCourseCourseDescriptionPageURL = "https://courselist.wm.edu/" +
+                                "courselist/courseinfo/addInfo?fterm=202320&fcrn=" + courseCRN;
+                        Document currentCourseCourseDescriptionPage = Jsoup.connect(
+                                currentCourseCourseDescriptionPageURL).get();
+                        String courseID = row.select("td:nth-of-type(2)").text();
+                        String courseAttribute = row.select("td:nth-of-type(3)").text();
+                        String courseTitle = row.select("td:nth-of-type(4)").text();
+                        String courseInstructor = row.select("td:nth-of-type(5)").text();
+                        String courseCreditHours = row.select("td:nth-of-type(6)").text();
+                        String courseMeetDays = "";
+                        String courseMeetTime = "";
 
                         // Meet days and meet times are given together on the Open Course List
                         // The format is DDD:HHMM-HHMM where D are the meet days and HHMM-HHMM is the meet time
                         // in military time. Thus splitting on the colon separates the two for use in the CourseModel
-                        // NOTE: Some courses don't have meet days/times like "Directed Study" courses, ignore those
+                        // NOTE: Some courses don't have meet days/times like "Directed Study" courses, use empty string
                         if(!row.select("td:nth-of-type(7)").text().isEmpty()){
-
                             String[] meetDaysAndTimes = row.select("td:nth-of-type(7)").text().split(":");
-                            currentCourse.setMeetDays(meetDaysAndTimes[0]);
-                            currentCourse.setMeetTime(meetDaysAndTimes[1]);
-                        } else{
-                            currentCourse.setMeetDays("");
-                            currentCourse.setMeetTime("");
+                            courseMeetDays = meetDaysAndTimes[0];
+                            courseMeetTime = meetDaysAndTimes[1];
                         }
 
-                        currentCourse.setProjectedEnrollment(Integer.parseInt(row.select("td:nth-of-type(8)").text()));
-                        currentCourse.setCurrentEnrollment(Integer.parseInt(row.select("td:nth-of-type(9)").text()));
-                        currentCourse.setStatus(row.select("td:nth-of-type(11)").text());
+                        int courseProjectedEnrollment = Integer.parseInt(row.select("td:nth-of-type(8)").text());
+                        int courseCurrentEnrollment = Integer.parseInt(row.select("td:nth-of-type(9)").text());
+                        String courseStatus = row.select("td:nth-of-type(11)").text();
 
+                        // We are randomly generating ratings for each course since we do not have this data yet
+                        int courseTotalRating = 0;
+                        int courseNumRatings = ThreadLocalRandom.current().nextInt(1, 11);
+                        // Need to generate numRatings number of random course ratings, 1-5
+                        for(int j = 0; j < courseNumRatings; j++){
+                            courseTotalRating += ThreadLocalRandom.current().nextInt(1,6);
+                        }
+
+                        String courseCourseDescription = currentCourseCourseDescriptionPage.select(
+                                "#addinfo > table:nth-child(1) > tbody:nth-child(1) > tr > td")
+                                .text().split(" ", 3)[2];;
+
+                        // Constructor CourseModel object from scraped data and insert into database
+                        CourseModel currentCourse = new CourseModel(-1, courseCRN, courseID, courseAttribute,
+                                courseTitle, courseInstructor, courseCreditHours, courseMeetDays, courseMeetTime,
+                                courseProjectedEnrollment, courseCurrentEnrollment, courseStatus,
+                                courseTotalRating, courseNumRatings, courseCourseDescription);
                         dataAccessObject.addOne(currentCourse);
                     }
                 }

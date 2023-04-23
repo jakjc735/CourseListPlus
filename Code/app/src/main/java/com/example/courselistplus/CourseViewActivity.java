@@ -1,11 +1,11 @@
 package com.example.courselistplus;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class CourseViewActivity extends AppCompatActivity {
 
@@ -41,10 +41,12 @@ public class CourseViewActivity extends AppCompatActivity {
         String courseIDIntent = intent.getStringExtra("courseIDIntent");
         String courseInstructorIntent = intent.getStringExtra("courseInstructorIntent");
         String courseMeetTimeIntent = intent.getStringExtra("courseMeetTimeIntent");
+        String courseDescriptionIntent = intent.getStringExtra("courseDescriptionIntent");
 
         courseName.setText(courseTitleIntent);
         courseId.setText(courseIDIntent);
         instructor.setText(courseInstructorIntent);
         courseTime.setText(courseMeetTimeIntent);
+        courseDescription.setText(courseDescriptionIntent);
     }
 }
