@@ -65,7 +65,6 @@ public class CourseListFragment extends Fragment {
             Log.d("Search Results", searchResults.toString());
 
 
-
             coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
@@ -79,15 +78,9 @@ public class CourseListFragment extends Fragment {
                     myIntent.putExtra("courseIDIntent", selectedItem.getCourseID());
                     myIntent.putExtra("courseInstructorIntent", selectedItem.getCourseInstructor());
                     myIntent.putExtra("courseMeetTimeIntent", selectedItem.getMeetTime());
+                    myIntent.putExtra("courseMeetDaysIntent", selectedItem.getMeetDays());
 
                     startActivity(myIntent);
-
-
-
-
-
-
-
 
                 }
             });
