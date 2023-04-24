@@ -35,6 +35,10 @@ Link To database screenshot to see attributes to search and get back queries: ht
 
 * Our (J-unit, Acceptance, and Integration) tests were designed around the search bar functionality and making sure that the queries returned the right courses depending on what type of search attribute users were trying to accomplish. Our test took into account null queries, invalid queries, and other user input that could potential crash the application. 
 
+**4) Want to see how our app works?**
+
+*View our video here: https://drive.google.com/file/d/1T-fUHm1ckLubAAJtbz0in5FBQQdxecfA/view?usp=sharing 
+
 
 
 
