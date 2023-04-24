@@ -54,12 +54,14 @@ public class CourseViewActivity extends AppCompatActivity {
         String courseMeetTimeIntent = intent.getStringExtra("courseMeetTimeIntent");
         String courseDescriptionIntent = intent.getStringExtra("courseDescriptionIntent");
         String courseMeetDaysIntent = intent.getStringExtra("courseMeetDaysIntent");
+        String courseRatingIntent = intent.getStringExtra("courseRatingIntent");
 
         courseName.setText(courseTitleIntent);
         courseId.setText(courseIDIntent);
         instructor.setText(courseInstructorIntent);
         courseTime.setText(courseMeetTimeIntent);
         courseDescription.setText(courseDescriptionIntent);
+        courseRating.setText(courseRatingIntent);
 
         // Add course clicked
         addButton.setOnClickListener(new View.OnClickListener() {

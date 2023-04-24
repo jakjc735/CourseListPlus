@@ -68,6 +68,9 @@ public class CourseListFragment extends Fragment {
                     myIntent.putExtra("courseMeetTimeIntent", selectedItem.getMeetTime());
                     myIntent.putExtra("courseDescriptionIntent", selectedItem.getCourseDescription());
                     myIntent.putExtra("courseMeetDaysIntent", selectedItem.getMeetDays());
+                    myIntent.putExtra("courseRatingIntent", "Course Overall Rating: " +
+                            selectedItem.getOverallRating() + " (as rated by " +
+                            selectedItem.getNumRatings() + " students!)");
 
                     startActivity(myIntent);
                 }

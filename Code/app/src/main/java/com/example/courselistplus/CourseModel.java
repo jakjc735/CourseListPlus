@@ -199,7 +199,6 @@ public class CourseModel {
                 ", currentEnrollment=" + currentEnrollment +
                 ", status='" + status + '\'' +
                 ", overallRating=" + this.getOverallRating() +
-                ", courseDescription='" + courseDescription + '\'' +
                 '}';
     }
 }
