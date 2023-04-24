@@ -6,21 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.CourseList.CourseListFragment">
 
+    <!--    </LinearLayout>-->
+
     <Spinner
         android:id="@+id/filterSpinner"
         android:layout_width="200dp"
         android:layout_height="55dp"
         android:contentDescription="@string/filterToApply"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/searchButton"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/querySearchView"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.491" />
 
     <android.widget.SearchView
         android:id="@+id/querySearchView"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="196dp"
+        android:layout_height="53dp"
         android:iconifiedByDefault="false"
         android:queryHint="@string/Search"
         app:layout_constraintBottom_toTopOf="@id/searchButton"
@@ -28,17 +30,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    </LinearLayout>-->
-
     <Button
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Search"
-        app:layout_constraintTop_toBottomOf="@id/querySearchView"
         app:layout_constraintBottom_toTopOf="@id/coursesListView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/querySearchView" />
 
     <ListView
         android:id="@+id/coursesListView"

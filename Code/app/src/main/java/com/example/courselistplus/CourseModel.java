@@ -1,7 +1,5 @@
 package com.example.courselistplus;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * The class definition for the course objects
  *
@@ -26,10 +24,10 @@ public class CourseModel {
     private int currentEnrollment;
     // Example: Open
     private String status;
-    // Total number of stars received across all ratings from all students
+    // Use the following two attributes to calculate overall/average rating
     private int totalRating;
-    // Total number of students who have left a rating. Helps to calculate average/overall rating
     private int numRatings;
+    private String courseDescription;
 
     /**
      * Course object constructor
@@ -46,10 +44,14 @@ public class CourseModel {
      * @param projectedEnrollment Number of available seats in the course
      * @param currentEnrollment Number of students registered for the course
      * @param status If the course is open for enrollment or not e.g. Open, Closed
+     * @param totalRating Sum total of all stars received across all ratings
+     * @param numRatings Total number of students who have left a rating
+     * @param courseDescription Course description from open course list website
      */
     public CourseModel(int id, int CRN, String courseID, String courseAttribute, String courseTitle,
                        String courseInstructor, String creditHours, String meetDays, String meetTime,
-                       int projectedEnrollment, int currentEnrollment, String status) {
+                       int projectedEnrollment, int currentEnrollment, String status, int totalRating,
+                       int numRatings, String courseDescription) {
         this.id = id;
         this.CRN = CRN;
         this.courseID = courseID;
@@ -62,33 +64,11 @@ public class CourseModel {
         this.projectedEnrollment = projectedEnrollment;
         this.currentEnrollment = currentEnrollment;
         this.status = status;
-
-        // We are randomly generating ratings for each course since we do not have this data yet
-        numRatings = ThreadLocalRandom.current().nextInt(1, 11);
-        // Need to generate numRatings number of random course ratings, 1-5
-        for(int i = 0; i < numRatings; i++){
-            totalRating += ThreadLocalRandom.current().nextInt(1,6);
-        }
+        this.totalRating = totalRating;
+        this.numRatings = numRatings;
+        this.courseDescription = courseDescription;
     }
 
-    /**
-     * "Empty" constructor to declare but not fully instantiate a CourseModel object
-     * Useful for when the object's fields are not ready to be populated all at once.
-     *
-     * @param id the id (primary key) of the course in the database
-     */
-    public CourseModel(int id){
-        this.id = id;
-
-        // We are randomly generating ratings for each course since we do not have this data yet
-        numRatings = ThreadLocalRandom.current().nextInt(1, 11);
-        // Need to generate numRatings number of random course ratings, 1-5
-        for(int i = 0; i < numRatings; i++){
-            totalRating += ThreadLocalRandom.current().nextInt(1,6);
-        }
-    }
-
-    // Getters and setters
     public int getId() {
         return id;
     }
@@ -185,17 +165,22 @@ public class CourseModel {
         this.status = status;
     }
 
-    public int getOverallRating(){
-        // This performs int division and truncates
-        //TODO @abdihassan Make the rating more precise
-        return this.totalRating/this.numRatings;
+    public int getTotalRating() {
+        return totalRating;
     }
 
-    public void addRating(int courseRating){
-        if((1 <= courseRating) && (courseRating <= 5)){
-            this.totalRating += courseRating;
-            this.numRatings += 1;
-        }
+    public int getNumRatings() {
+        return numRatings;
+    }
+
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public int getOverallRating(){
+        // This performs int division and truncates
+        //TODO @abdih Make the rating more precise
+        return totalRating/numRatings;
     }
 
     @Override
@@ -213,7 +198,7 @@ public class CourseModel {
                 ", projectedEnrollment=" + projectedEnrollment +
                 ", currentEnrollment=" + currentEnrollment +
                 ", status='" + status + '\'' +
-                ", courseRating=" + this.getOverallRating() +
+                ", overallRating=" + this.getOverallRating() +
                 '}';
     }
 }

@@ -13,14 +13,12 @@ import java.util.List;
 
 /**
  * Class that provides data operations without exposing database details
- *
- * @author abdih
+ * Copy of DataAccessObject; internal database that saves student selected classes.
+ * @author amirshariatmadari (copied from Abdi)
  */
-public class DataAccessObject extends SQLiteOpenHelper {
+public class StudentDataAccessObject extends SQLiteOpenHelper {
 
-    // Constants to save time/avoid errors when referring to database elements
-    private static final int DATABASE_VERSION = 4;
-    private static final String DATABASE_NAME = "courses.db";
+    // String constants to save time/avoid errors when referring to database elements
     private static final String COURSES_TABLE = "COURSES_TABLE";
     private static final String COLUMN_CRN = "CRN";
     private static final String COLUMN_COURSE_ID = "COURSE_ID";
@@ -42,8 +40,8 @@ public class DataAccessObject extends SQLiteOpenHelper {
      *
      * @param context Application context to use for locating paths to the the database
      */
-    public DataAccessObject(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public StudentDataAccessObject(@Nullable Context context) {
+        super(context, "studentcourses.db", null, 1);
     }
 
     /**
@@ -321,7 +319,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
         // TODO: Add input validation (protect against invalid Meeting Days)
         try {
             String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE " + COLUMN_MEET_DAYS +
-                    "= \"" + query + "\"";
+                    " LIKE \"%" + query + "%\"";
 
             Cursor cursor = db.rawQuery(queryString, null);
 

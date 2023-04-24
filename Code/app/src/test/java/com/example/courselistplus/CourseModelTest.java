@@ -19,7 +19,8 @@ public class CourseModelTest {
     public void testCourseModelConstructorAndGetters() {
         // Create a new CourseModel object
         CourseModel course = new CourseModel(1, 12345, "CS 101", "A1", "Intro to Computer Science",
-                "John Smith", "3", "MW", "10:00 AM - 11:15 AM", 50, 25, "Open");
+                "John Smith", "3", "MW", "10:00 AM - 11:15 AM", 50, 25,
+                "Open", 20, 5, "Sample course description");
 
         // Test the getters for all the attributes
         assertEquals(1, course.getId());
@@ -43,8 +44,10 @@ public class CourseModelTest {
     @Test
     public void testCourseModelSetters() {
         // Create a new CourseModel object
-        CourseModel course = new CourseModel(1, 12345, "CS 101", "A1", "Intro to Computer Science",
-                "John Smith", "3", "MW", "10:00 AM - 11:15 AM", 50, 25, "Open");
+        CourseModel course = new CourseModel(1, 12345, "CS 101", "A1",
+                "Intro to Computer Science", "John Smith", "3",
+                "MW", "10:00 AM - 11:15 AM", 50, 25,
+                "Open",20, 5, "Sample course description");
 
         // Test the setters for all the attributes
         course.setId(2);
