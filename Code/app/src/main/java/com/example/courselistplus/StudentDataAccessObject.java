@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Class that provides data operations without exposing database details
  * Copy of DataAccessObject; internal database that saves student selected classes.
+ *
  * @author amirshariatmadari (copied from Abdi)
  */
 public class StudentDataAccessObject extends SQLiteOpenHelper {
@@ -65,8 +66,8 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      * Unused method, typically intended to store code regarding updates to the database version.
      *
      * @param sqLiteDatabase The database.
-     * @param oldVersion The old database version.
-     * @param newVersion The new database version.
+     * @param oldVersion     The old database version.
+     * @param newVersion     The new database version.
      */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
@@ -81,14 +82,14 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      *
      * @param courseModel The course to add
      */
-    protected void addOne(CourseModel courseModel){
+    protected void addOne(CourseModel courseModel) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + courseModel.getCRN();
         Cursor cursor = db.rawQuery(queryString, null);
 
         // Prevents inserting a course if it's already in the database
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             // duplicate insertion, do nothing
         } else {
             ContentValues cv = new ContentValues();
@@ -120,10 +121,10 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      * the appropriate helper method
      *
      * @param filter the filter the user is searching based on, e.g. Instructor
-     * @param query the query the user typed into the search view on the UI, e.g. Kemper, Peter
+     * @param query  the query the user typed into the search view on the UI, e.g. Kemper, Peter
      * @return List of courses (Course Model objects) from the database matching the query
      */
-    public List<CourseModel> getMatchingCourses(String filter, String query){
+    public List<CourseModel> getMatchingCourses(String filter, String query) {
         List<CourseModel> returnList = new ArrayList<>();
 
         switch (filter) {
@@ -155,7 +156,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      *
      * @return List of all courses (Course Model objects) in the database
      */
-    protected List<CourseModel> getAllCourses(){
+    protected List<CourseModel> getAllCourses() {
         List<CourseModel> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + COURSES_TABLE;
@@ -163,7 +164,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(queryString, null);
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 int coursePrimaryKey = cursor.getInt(0);
                 int CRN = cursor.getInt(1);
@@ -187,7 +188,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
                         currentEnrollment, status, totalRating, numRatings, courseDescription);
 
                 returnList.add(newCourseModel);
-            } while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         } else {
             // failure, is the database empty?
         }
@@ -204,7 +205,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      * @param query the query the user typed into the search view on the UI, e.g. 25722
      * @return List of courses (Course Model objects) from the database matching the query
      */
-    private List<CourseModel> getMatchingCRN(String query){
+    private List<CourseModel> getMatchingCRN(String query) {
         List<CourseModel> returnList = new ArrayList<>();
 
         // TODO: Add input validation (protect against invalid CRNs)
@@ -244,7 +245,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
             cursor.close();
             db.close();
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return returnList;
@@ -256,7 +257,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      * @param query the query the user typed into the search view on the UI, e.g. 4
      * @return List of courses (Course Model objects) from the database matching the query
      */
-    private List<CourseModel> getMatchingCredits(String query){
+    private List<CourseModel> getMatchingCredits(String query) {
         List<CourseModel> returnList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -288,7 +289,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
+                            currentEnrollment, status, totalRating, numRatings, courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -298,7 +299,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
             cursor.close();
             db.close();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -312,7 +313,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      * @param query the query the user typed into the search view on the UI, e.g. MWF
      * @return List of courses (Course Model objects) from the database matching the query
      */
-    private List<CourseModel> getMatchingMeetDays(String query){
+    private List<CourseModel> getMatchingMeetDays(String query) {
         List<CourseModel> returnList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -344,7 +345,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
+                            currentEnrollment, status, totalRating, numRatings, courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -353,7 +354,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
             // close both the cursor and the db when done
             cursor.close();
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -367,7 +368,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      * @param query the query the user typed into the search view on the UI, e.g. 1200-1250
      * @return List of courses (Course Model objects) from the database matching the query
      */
-    private List<CourseModel> getMatchingMeetTime(String query){
+    private List<CourseModel> getMatchingMeetTime(String query) {
         List<CourseModel> returnList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -399,7 +400,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
+                            currentEnrollment, status, totalRating, numRatings, courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -408,7 +409,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
             cursor.close();
             db.close();
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -422,7 +423,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      * @param query the query the user typed into the search view on the UI, e.g. Kemper, Peter
      * @return List of courses (Course Model objects) from the database matching the query
      */
-    private List<CourseModel> getMatchingInstructor(String query){
+    private List<CourseModel> getMatchingInstructor(String query) {
         List<CourseModel> returnList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -454,7 +455,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
+                            currentEnrollment, status, totalRating, numRatings, courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -464,7 +465,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
             cursor.close();
             db.close();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -478,7 +479,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
      * @param query the query the user typed into the search view on the UI, e.g. C200
      * @return List of courses (Course Model objects) from the database matching the query
      */
-    private List<CourseModel> getMatchingCourseAttribute(String query){
+    private List<CourseModel> getMatchingCourseAttribute(String query) {
         List<CourseModel> returnList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -510,7 +511,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
                     CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
                             CRN, courseID, courseAttribute, courseTitle, courseInstructor,
                             creditHours, meetDays, meetTime, projectedEnrollment,
-                            currentEnrollment, status, totalRating, numRatings,  courseDescription);
+                            currentEnrollment, status, totalRating, numRatings, courseDescription);
 
                     returnList.add(newCourseModel);
                 } while (cursor.moveToNext());
@@ -519,7 +520,7 @@ public class StudentDataAccessObject extends SQLiteOpenHelper {
             // close both the cursor and the db when done
             cursor.close();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

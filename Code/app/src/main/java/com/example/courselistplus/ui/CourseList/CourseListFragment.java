@@ -80,9 +80,9 @@ public class CourseListFragment extends Fragment {
         return root;
     }
 
-        @Override
-        public void onDestroyView () {
-            super.onDestroyView();
-            binding = null;
-        }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }
