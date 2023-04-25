@@ -1,31 +1,27 @@
 package com.example.courselistplus;
 
+import static com.example.courselistplus.ui.Calendar.CalendarUtils.daysInWeekArray;
+import static com.example.courselistplus.ui.Calendar.CalendarUtils.monthYearFromDate;
+import static com.example.courselistplus.ui.Calendar.CalendarUtils.selectedDate;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.courselistplus.ui.Calendar.CalendarAdapter;
 import com.example.courselistplus.ui.Calendar.CalendarUtils;
-import com.example.courselistplus.ui.Calendar.Event;
 import com.example.courselistplus.ui.Calendar.EventAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.courselistplus.ui.Calendar.CalendarUtils.daysInWeekArray;
-import static com.example.courselistplus.ui.Calendar.CalendarUtils.monthYearFromDate;
-import static com.example.courselistplus.ui.Calendar.CalendarUtils.selectedDate;
 
 /**
  * Sets up the week view after you click on the weekly button
@@ -88,7 +84,7 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         setCourseAdapter();
     }
@@ -96,6 +92,7 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
 
     /**
      * Sets up event adapter for the list view that displays events for a given day
+     *
      * @author amirshariatmadari
      */
     private void setCourseAdapter() {
@@ -105,21 +102,9 @@ public class WeekActivity extends AppCompatActivity implements CalendarAdapter.O
         String dayOfWeek = CalendarUtils.getDayOfWeek(selectedDate);
         List<CourseModel> searchResults = studentDb.getMatchingCourses("Meet Days", dayOfWeek);
 
-        Log.d("myTag", "Begin logging");
-        for(int j = 0; j < searchResults.size(); j++){
-            Log.d("myTag", searchResults.get(j).getCourseTitle());
-        }
-
         ArrayList<CourseModel> dailyEvents = new ArrayList<CourseModel>(searchResults);
-
-        for(int i = 0; i < dailyEvents.size(); i++){
-            Log.d("myTag", dailyEvents.get(i).getCourseTitle());
-        }
-        Log.d("myTag", "End logging");
 
         EventAdapter eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
         courseListView.setAdapter(eventAdapter);
     }
-
-
 }

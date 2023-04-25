@@ -23,12 +23,11 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class NavigationActivity extends AppCompatActivity {
-
     private AppBarConfiguration mAppBarConfiguration;
     private DataAccessObject dataAccessObject;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ActivityNavigationBinding binding = ActivityNavigationBinding.inflate(getLayoutInflater());
@@ -73,7 +72,6 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private class Content extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -91,12 +89,12 @@ public class NavigationActivity extends AppCompatActivity {
                 //Connect to the website
                 Document openCourseListHomePage = Jsoup.connect(openCourseListHomePageURL).get();
 
-                for(int i = 2; i < 75; i++){
+                for (int i = 2; i < 75; i++) {
                     // The url for a particular subject's open course list page is formulaic.
                     // Setting the term_subj= with the correct subject tag will yield the desired url.
                     currentSubjectPageURL = "https://courselist.wm.edu/courselist/courseinfo/searchresults?" +
                             "term_code=202320&term_subj=" + openCourseListHomePage.select(
-                                    "#term_subj > option:nth-child(" + i + ")").val() +
+                            "#term_subj > option:nth-child(" + i + ")").val() +
                             "&attr=0&attr2=0&levl=0&status=0&ptrm=0&search=Search";
 
                     Document currentSubjectPage = Jsoup.connect(currentSubjectPageURL).get();
@@ -105,7 +103,7 @@ public class NavigationActivity extends AppCompatActivity {
                     List<Element> results = currentSubjectPage.select("table tr");
 
                     // Code to populate the database with courses from W&M's open course list
-                    for(Element row: results.subList(1, results.size())){
+                    for (Element row : results.subList(1, results.size())) {
                         int courseCRN = Integer.parseInt(row.select("td:nth-of-type(1)").text());
                         currentCourseCourseDescriptionPageURL = "https://courselist.wm.edu/" +
                                 "courselist/courseinfo/addInfo?fterm=202320&fcrn=" + courseCRN;
@@ -123,7 +121,7 @@ public class NavigationActivity extends AppCompatActivity {
                         // The format is DDD:HHMM-HHMM where D are the meet days and HHMM-HHMM is the meet time
                         // in military time. Thus splitting on the colon separates the two for use in the CourseModel
                         // NOTE: Some courses don't have meet days/times like "Directed Study" courses, use empty string
-                        if(!row.select("td:nth-of-type(7)").text().isEmpty()){
+                        if (!row.select("td:nth-of-type(7)").text().isEmpty()) {
                             String[] meetDaysAndTimes = row.select("td:nth-of-type(7)").text().split(":");
                             courseMeetDays = meetDaysAndTimes[0];
                             courseMeetTime = meetDaysAndTimes[1];
@@ -137,13 +135,14 @@ public class NavigationActivity extends AppCompatActivity {
                         int courseTotalRating = 0;
                         int courseNumRatings = ThreadLocalRandom.current().nextInt(1, 11);
                         // Need to generate numRatings number of random course ratings, 1-5
-                        for(int j = 0; j < courseNumRatings; j++){
-                            courseTotalRating += ThreadLocalRandom.current().nextInt(1,6);
+                        for (int j = 0; j < courseNumRatings; j++) {
+                            courseTotalRating += ThreadLocalRandom.current().nextInt(1, 6);
                         }
 
                         String courseCourseDescription = currentCourseCourseDescriptionPage.select(
-                                "#addinfo > table:nth-child(1) > tbody:nth-child(1) > tr > td")
-                                .text().split(" ", 3)[2];;
+                                        "#addinfo > table:nth-child(1) > tbody:nth-child(1) > tr > td")
+                                .text().split(" ", 3)[2];
+                        ;
 
                         // Constructor CourseModel object from scraped data and insert into database
                         CourseModel currentCourse = new CourseModel(-1, courseCRN, courseID, courseAttribute,
