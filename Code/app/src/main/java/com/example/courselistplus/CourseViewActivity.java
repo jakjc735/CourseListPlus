@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.courselistplus.ui.CourseList.RateCourseActivity;
+
 import java.util.Random;
 
 public class CourseViewActivity extends AppCompatActivity {
@@ -31,8 +33,8 @@ public class CourseViewActivity extends AppCompatActivity {
         studentDB = new StudentDataAccessObject(CourseViewActivity.this);
 
         //Initalize Buttons
-        addButton = (Button) findViewById(R.id.AddButton);
-        rateButton = (Button) findViewById(R.id.RateButton);
+        addButton = findViewById(R.id.AddButton);
+        rateButton = findViewById(R.id.RateButton);
 
         //Initalize Textviews
         courseName = findViewById(R.id.CourseName);
@@ -78,6 +80,21 @@ public class CourseViewActivity extends AppCompatActivity {
 
                 // Add course model to student database
                 studentDB.addOne(studentCourse);
+            }
+        });
+
+        // Allows students to add ratings to a course
+        rateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ratingIntent = new Intent(CourseViewActivity.this, RateCourseActivity.class);
+                Intent lastIntent = getIntent();
+
+                String courseCRNIntent = lastIntent.getStringExtra("courseCRNIntent");
+
+                ratingIntent.putExtra("courseCRNIntent", courseCRNIntent);
+
+                startActivity(ratingIntent);
             }
         });
     }

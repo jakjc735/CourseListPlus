@@ -83,7 +83,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
      *
      * @param courseModel The course to add
      */
-    protected void addOne(CourseModel courseModel) {
+    protected void insert(CourseModel courseModel) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String queryString = "SELECT * FROM " + COURSES_TABLE + " WHERE CRN= " + courseModel.getCRN();
@@ -115,6 +115,16 @@ public class DataAccessObject extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
+    }
+
+    protected void update(CourseModel courseModel, int rating){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NUM_RATINGS, courseModel.getNumRatings() + 1);
+        cv.put(COLUMN_TOTAL_RATING, courseModel.getTotalRating() + rating);
+
+        db.update(COURSES_TABLE, cv, COLUMN_CRN + " = " + courseModel.getCRN(), null);
     }
 
     /**
