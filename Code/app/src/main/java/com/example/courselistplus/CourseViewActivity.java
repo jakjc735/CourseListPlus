@@ -8,21 +8,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.time.LocalTime;
 import java.util.Random;
 
 public class CourseViewActivity extends AppCompatActivity {
-
     Button addButton;
     Button rateButton;
-
     TextView courseName;
     TextView courseRating;
     TextView courseId;
     TextView instructor;
     TextView courseTime;
     TextView courseDescription;
-    LocalTime time;
 
     private StudentDataAccessObject studentDB;
 
@@ -76,7 +72,7 @@ public class CourseViewActivity extends AppCompatActivity {
                 // Create course model object
                 //TODO: @amir Fix the example fields
                 CourseModel studentCourse = new CourseModel(-1, rand, courseIDIntent, "placeholder",
-                        courseTitleIntent,courseInstructorIntent,"placeholder",courseMeetDaysIntent,
+                        courseTitleIntent, courseInstructorIntent, "placeholder", courseMeetDaysIntent,
                         courseMeetTimeIntent, 10, 9, "placeholder",
                         9, 3, "placeholder");
 
@@ -85,13 +81,4 @@ public class CourseViewActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
-
-
-
-
 }

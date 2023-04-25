@@ -31,8 +31,7 @@ import java.util.ArrayList;
  *
  * @author JC Alvarez
  */
-public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener{
-
+public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener {
     //constants that shows the calender numbers and calender layout itself
     //allows the layout to change the days to match months correctly
     private FragmentCalendarBinding binding;
@@ -43,13 +42,9 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     Button forwardsButton;
     Button weeklyButton;
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        CalendarViewModel calendarViewModel =
-                new ViewModelProvider(this).get(CalendarViewModel.class);
-
         binding = FragmentCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -68,7 +63,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
             setMonthView();
         });
 
-        forwardsButton.setOnClickListener((view) ->  {
+        forwardsButton.setOnClickListener((view) -> {
             CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
             setMonthView();
         });
@@ -76,9 +71,7 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         weeklyButton.setOnClickListener((view) -> {
             Intent myIntent = new Intent(getActivity(), WeekActivity.class);
             startActivity(myIntent);
-
         });
-
 
         return root;
     }
@@ -86,25 +79,23 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     //this is what sets the month view up
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setMonthView() {
-       monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
-
     }
 
     //if you click on a day, the background changes to light gray
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemClick(int position, LocalDate date) {
-        if(date != null) {
+        if (date != null) {
             CalendarUtils.selectedDate = date;
             setMonthView();
         }
-
     }
 
     @Override
@@ -112,5 +103,4 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         super.onDestroyView();
         binding = null;
     }
-
 }
