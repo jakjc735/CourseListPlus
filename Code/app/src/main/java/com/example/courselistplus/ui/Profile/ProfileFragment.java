@@ -14,11 +14,14 @@ import com.example.courselistplus.databinding.FragmentProfileBinding;
 public class ProfileFragment  extends Fragment {
 
     private FragmentProfileBinding binding;
+    //TODO (Brandon) add content from profile xml
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        //TODO (Brandon) add functionality to content from profile xml
 
         return root;
     }
