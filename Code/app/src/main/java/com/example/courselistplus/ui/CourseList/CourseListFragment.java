@@ -2,6 +2,7 @@ package com.example.courselistplus.ui.CourseList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,15 +63,17 @@ public class CourseListFragment extends Fragment {
                     CourseModel selectedItem = (CourseModel) adapterView.getItemAtPosition(i);
                     Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
 
-                    myIntent.putExtra("courseTitleIntent", selectedItem.getCourseTitle());
-                    myIntent.putExtra("courseIDIntent", selectedItem.getCourseID());
-                    myIntent.putExtra("courseInstructorIntent", selectedItem.getCourseInstructor());
-                    myIntent.putExtra("courseMeetTimeIntent", selectedItem.getMeetTime());
-                    myIntent.putExtra("courseDescriptionIntent", selectedItem.getCourseDescription());
-                    myIntent.putExtra("courseMeetDaysIntent", selectedItem.getMeetDays());
-                    myIntent.putExtra("courseRatingIntent", "Course Overall Rating: " +
-                            selectedItem.getOverallRating() + " (as rated by " +
-                            selectedItem.getNumRatings() + " students!)");
+                    Log.d("Course in 1st Activity", selectedItem.toString());
+
+                    myIntent.putExtra("Course", selectedItem);
+//                    myIntent.putExtra("courseIDIntent", selectedItem.getCourseID());
+//                    myIntent.putExtra("courseInstructorIntent", selectedItem.getCourseInstructor());
+//                    myIntent.putExtra("courseMeetTimeIntent", selectedItem.getMeetTime());
+//                    myIntent.putExtra("courseDescriptionIntent", selectedItem.getCourseDescription());
+//                    myIntent.putExtra("courseMeetDaysIntent", selectedItem.getMeetDays());
+//                    myIntent.putExtra("courseRatingIntent", "Course Overall Rating: " +
+//                            selectedItem.getOverallRating() + " (as rated by " +
+//                            selectedItem.getNumRatings() + " students!)");
 
                     startActivity(myIntent);
                 }
