@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="wm_green">#115740</color>
     <color name="wm_golden">#B9975B</color>
+    <color name="lightBlue">#4D7FAE</color>
+    <color name="blue">#22496D</color>
+    <color name="darkBlue">#143452</color>
 </resources>
