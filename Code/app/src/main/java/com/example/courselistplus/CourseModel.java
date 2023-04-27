@@ -108,96 +108,48 @@ public class CourseModel implements Parcelable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getCRN() {
         return CRN;
-    }
-
-    public void setCRN(int CRN) {
-        this.CRN = CRN;
     }
 
     public String getCourseID() {
         return courseID;
     }
 
-    public void setCourseID(String courseID) {
-        this.courseID = courseID;
-    }
-
     public String getCourseAttribute() {
         return courseAttribute;
-    }
-
-    public void setCourseAttribute(String courseAttribute) {
-        this.courseAttribute = courseAttribute;
     }
 
     public String getCourseTitle() {
         return courseTitle;
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
-    }
-
     public String getCourseInstructor() {
         return courseInstructor;
-    }
-
-    public void setCourseInstructor(String courseInstructor) {
-        this.courseInstructor = courseInstructor;
     }
 
     public String getCreditHours() {
         return creditHours;
     }
 
-    public void setCreditHours(String creditHours) {
-        this.creditHours = creditHours;
-    }
-
     public String getMeetDays() {
         return meetDays;
-    }
-
-    public void setMeetDays(String meetDays) {
-        this.meetDays = meetDays;
     }
 
     public String getMeetTime() {
         return meetTime;
     }
 
-    public void setMeetTime(String meetTime) {
-        this.meetTime = meetTime;
-    }
-
     public int getProjectedEnrollment() {
         return projectedEnrollment;
-    }
-
-    public void setProjectedEnrollment(int projectedEnrollment) {
-        this.projectedEnrollment = projectedEnrollment;
     }
 
     public int getCurrentEnrollment() {
         return currentEnrollment;
     }
 
-    public void setCurrentEnrollment(int currentEnrollment) {
-        this.currentEnrollment = currentEnrollment;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public int getTotalRating() {
@@ -244,7 +196,6 @@ public class CourseModel implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-
         parcel.writeInt(this.id);
         parcel.writeInt(this.CRN);
         parcel.writeString(this.courseID);
