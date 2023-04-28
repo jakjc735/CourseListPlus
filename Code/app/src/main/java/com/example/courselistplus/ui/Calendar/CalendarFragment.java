@@ -1,33 +1,35 @@
 package com.example.courselistplus.ui.Calendar;
 
-import static com.example.courselistplus.ui.Calendar.CalendarUtils.daysInMonthArray;
+import static com.example.courselistplus.ui.Calendar.CalendarUtils.daysInWeekArray;
 import static com.example.courselistplus.ui.Calendar.CalendarUtils.monthYearFromDate;
+import static com.example.courselistplus.ui.Calendar.CalendarUtils.selectedDate;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.courselistplus.CourseModel;
 import com.example.courselistplus.R;
-import com.example.courselistplus.WeekActivity;
+import com.example.courselistplus.StudentDataAccessObject;
 import com.example.courselistplus.databinding.FragmentCalendarBinding;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Class that constructs the monthly calendar view
+ * Class that constructs the weekly calendar view
  *
  * @author JC Alvarez
  */
@@ -38,9 +40,11 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
 
-    Button backwardsButton;
-    Button forwardsButton;
-    Button weeklyButton;
+    private ListView courseListView;
+
+    Button backwardsWeekButton;
+    Button forwardsWeekButton;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,27 +54,23 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
         calendarRecyclerView = root.findViewById(R.id.calendarRecyclerView);
         monthYearText = root.findViewById(R.id.monthYearDisplay);
+        courseListView = root.findViewById(R.id.courseListView);
 
         CalendarUtils.selectedDate = LocalDate.now();
-        setMonthView();
+        setWeekView();
 
-        backwardsButton = root.findViewById(R.id.backwardsButton);
-        forwardsButton = root.findViewById(R.id.forwardsButton);
-        weeklyButton = root.findViewById(R.id.weeklyButton);
+        backwardsWeekButton = root.findViewById(R.id.backwardsWeekButton);
+        forwardsWeekButton = root.findViewById(R.id.forwardsWeekButton);
 
-        backwardsButton.setOnClickListener((view) -> {
-            CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
-            setMonthView();
+
+        backwardsWeekButton.setOnClickListener((view) -> {
+            CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
+            setWeekView();
         });
 
-        forwardsButton.setOnClickListener((view) -> {
-            CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
-            setMonthView();
-        });
-
-        weeklyButton.setOnClickListener((view) -> {
-            Intent myIntent = new Intent(getActivity(), WeekActivity.class);
-            startActivity(myIntent);
+        forwardsWeekButton.setOnClickListener((view) -> {
+            CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);
+            setWeekView();
         });
 
         return root;
@@ -78,14 +78,15 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
 
     //this is what sets the month view up
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setMonthView() {
+    private void setWeekView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
-        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
+        ArrayList<LocalDate> days = daysInWeekArray(CalendarUtils.selectedDate);
 
-        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
+        setCourseAdapter();
     }
 
     //if you click on a day, the background changes to light gray
@@ -94,8 +95,27 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
     public void onItemClick(int position, LocalDate date) {
         if (date != null) {
             CalendarUtils.selectedDate = date;
-            setMonthView();
+            setWeekView();
         }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCourseAdapter();
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setCourseAdapter() {
+        StudentDataAccessObject studentDb = new StudentDataAccessObject(getActivity());
+
+        // Get day of the week
+        String dayOfWeek = CalendarUtils.getDayOfWeek(selectedDate);
+        List<CourseModel> searchResults = studentDb.getMatchingCourses("Meet Days", dayOfWeek);
+
+        ArrayList<CourseModel> dailyEvents = new ArrayList<CourseModel>(searchResults);
+
+        EventAdapter eventAdapter = new EventAdapter(getActivity().getApplicationContext(), dailyEvents);
+        courseListView.setAdapter(eventAdapter);
     }
 
     @Override
@@ -103,4 +123,5 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         super.onDestroyView();
         binding = null;
     }
+
 }
