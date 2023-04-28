@@ -62,15 +62,8 @@ public class CourseListFragment extends Fragment {
                     CourseModel selectedItem = (CourseModel) adapterView.getItemAtPosition(i);
                     Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
 
-                    myIntent.putExtra("courseTitleIntent", selectedItem.getCourseTitle());
-                    myIntent.putExtra("courseIDIntent", selectedItem.getCourseID());
-                    myIntent.putExtra("courseInstructorIntent", selectedItem.getCourseInstructor());
-                    myIntent.putExtra("courseMeetTimeIntent", selectedItem.getMeetTime());
-                    myIntent.putExtra("courseDescriptionIntent", selectedItem.getCourseDescription());
-                    myIntent.putExtra("courseMeetDaysIntent", selectedItem.getMeetDays());
-                    myIntent.putExtra("courseRatingIntent", "Course Overall Rating: " +
-                            selectedItem.getOverallRating() + " (as rated by " +
-                            selectedItem.getNumRatings() + " students!)");
+
+                    myIntent.putExtra("Course", selectedItem);
 
                     startActivity(myIntent);
                 }
