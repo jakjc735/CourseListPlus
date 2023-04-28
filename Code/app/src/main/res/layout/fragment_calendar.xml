@@ -6,19 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/WholeCalendar"
-    tools:context=".ui.Calendar.CalendarFragment">
-
-    <Button
-        android:id="@+id/weeklyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/weekly"
-        android:textColor="@color/wm_green"
-        android:backgroundTint="@color/wm_golden"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+    android:id="@+id/WeekCalendar"
+    android:background="@color/darkBlue">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,13 +16,14 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp">
         <Button
-            android:id="@+id/backwardsButton"
+            android:id="@+id/backwardsWeekButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/back"
-            android:textColor="@color/wm_green"
-            android:backgroundTint="@color/wm_golden"
+            android:textColor="@color/lightBlue"
+            android:backgroundTint="@color/darkBlue"
+            android:onClick="previousWeekAction"
             android:textStyle="bold"
             android:textSize="20sp"/>
         <TextView
@@ -42,17 +32,19 @@
             android:layout_weight="2"
             android:layout_height="wrap_content"
             android:text="@string/apr_23"
-            android:textSize="20sp"
+            android:textSize="25sp"
+            android:fontFamily="sans-serif-medium"
             android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
         <Button
-            android:id="@+id/forwardsButton"
+            android:id="@+id/forwardsWeekButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/forward"
-            android:textColor="@color/wm_green"
-            android:backgroundTint="@color/wm_golden"
+            android:textColor="@color/lightBlue"
+            android:backgroundTint="@color/darkBlue"
+            android:onClick="nextWeekAction"
             android:textStyle="bold"
             android:textSize="20sp"/>
 
@@ -68,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/sunday"
-            android:textColor="@color/wm_golden"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="16sp"/>
         <TextView
@@ -76,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/monday"
-            android:textColor="@color/wm_golden"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="16sp"/>
         <TextView
@@ -84,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/tuesday"
-            android:textColor="@color/wm_golden"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="16sp"/>
         <TextView
@@ -92,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/wednesday"
-            android:textColor="@color/wm_golden"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="16sp"/>
         <TextView
@@ -100,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/thursday"
-            android:textColor="@color/wm_golden"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="16sp"/>
         <TextView
@@ -108,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/friday"
-            android:textColor="@color/wm_golden"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="16sp"/>
         <TextView
@@ -116,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/saturday"
-            android:textColor="@color/wm_golden"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="16sp"/>
 
@@ -125,6 +117,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+    <ListView
+        android:id="@+id/courseListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5" />
 
 </LinearLayout>
