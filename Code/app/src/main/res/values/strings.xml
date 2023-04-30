@@ -9,8 +9,9 @@
 
     <string name="menu_calendar">Calendar</string>
     <string name="menu_courses">Course List</string>
+    <string name="menu_profile">My Profile</string>
     <string name="Search">Search</string>
-    <string name="AddButton">Add Course</string>
+    <string name="AddButton">Add To Calendar</string>
     <string name="RateButton">Rate Course</string>
     <string name="filterToApply">Filter To Apply</string>
 
