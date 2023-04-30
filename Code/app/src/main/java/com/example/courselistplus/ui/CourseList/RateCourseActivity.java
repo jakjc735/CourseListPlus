@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.courselistplus.CourseModel;
 import com.example.courselistplus.R;
 
 public class RateCourseActivity extends AppCompatActivity {
@@ -17,9 +18,10 @@ public class RateCourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_course);
 
-        Intent intent = getIntent();
-        String courseCRNIntent = intent.getStringExtra("courseCRNIntent");
         currentCourseTextView = findViewById(R.id.textView2);
-        currentCourseTextView.setText(courseCRNIntent);
+        Bundle data = getIntent().getExtras();
+
+        CourseModel selectedCourse = data.getParcelable("Course");
+        currentCourseTextView.setText(String.valueOf(selectedCourse.getCRN()));
     }
 }

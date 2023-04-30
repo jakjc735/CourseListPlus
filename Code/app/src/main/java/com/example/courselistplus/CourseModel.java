@@ -1,11 +1,16 @@
 package com.example.courselistplus;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 /**
  * The class definition for the course objects
  *
  * @author abdih
  */
-public class CourseModel {
+public class CourseModel implements Parcelable {
     // Columns displayed for a course on W&M's open course list
     private int id;
     private int CRN;
@@ -69,100 +74,82 @@ public class CourseModel {
         this.courseDescription = courseDescription;
     }
 
-    public int getId() {
-        return id;
+    protected CourseModel(Parcel in) {
+        this.id = in.readInt();
+        this.CRN = in.readInt();
+        this.courseID = in.readString();
+        this.courseAttribute = in.readString();
+        this.courseTitle = in.readString();
+        this.courseInstructor = in.readString();
+        this.creditHours = in.readString();
+        this.meetDays = in.readString();
+        this.meetTime = in.readString();
+        this.projectedEnrollment = in.readInt();
+        this.currentEnrollment = in.readInt();
+        this.status = in.readString();
+        this.totalRating = in.readInt();
+        this.numRatings = in.readInt();
+        this.courseDescription = in.readString();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public static final Creator<CourseModel> CREATOR = new Creator<CourseModel>() {
+        @Override
+        public CourseModel createFromParcel(Parcel in) {
+            return new CourseModel(in);
+        }
+
+        @Override
+        public CourseModel[] newArray(int size) {
+            return new CourseModel[size];
+        }
+    };
+
+    public int getId() {
+        return id;
     }
 
     public int getCRN() {
         return CRN;
     }
 
-    public void setCRN(int CRN) {
-        this.CRN = CRN;
-    }
-
     public String getCourseID() {
         return courseID;
-    }
-
-    public void setCourseID(String courseID) {
-        this.courseID = courseID;
     }
 
     public String getCourseAttribute() {
         return courseAttribute;
     }
 
-    public void setCourseAttribute(String courseAttribute) {
-        this.courseAttribute = courseAttribute;
-    }
-
     public String getCourseTitle() {
         return courseTitle;
-    }
-
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
     }
 
     public String getCourseInstructor() {
         return courseInstructor;
     }
 
-    public void setCourseInstructor(String courseInstructor) {
-        this.courseInstructor = courseInstructor;
-    }
-
     public String getCreditHours() {
         return creditHours;
-    }
-
-    public void setCreditHours(String creditHours) {
-        this.creditHours = creditHours;
     }
 
     public String getMeetDays() {
         return meetDays;
     }
 
-    public void setMeetDays(String meetDays) {
-        this.meetDays = meetDays;
-    }
-
     public String getMeetTime() {
         return meetTime;
-    }
-
-    public void setMeetTime(String meetTime) {
-        this.meetTime = meetTime;
     }
 
     public int getProjectedEnrollment() {
         return projectedEnrollment;
     }
 
-    public void setProjectedEnrollment(int projectedEnrollment) {
-        this.projectedEnrollment = projectedEnrollment;
-    }
-
     public int getCurrentEnrollment() {
         return currentEnrollment;
     }
 
-    public void setCurrentEnrollment(int currentEnrollment) {
-        this.currentEnrollment = currentEnrollment;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public int getTotalRating() {
@@ -200,5 +187,29 @@ public class CourseModel {
                 ", status='" + status + '\'' +
                 ", overallRating=" + this.getOverallRating() +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeInt(this.id);
+        parcel.writeInt(this.CRN);
+        parcel.writeString(this.courseID);
+        parcel.writeString(this.courseAttribute);
+        parcel.writeString(this.courseTitle);
+        parcel.writeString(this.courseInstructor);
+        parcel.writeString(this.creditHours);
+        parcel.writeString(this.meetDays);
+        parcel.writeString(this.meetTime);
+        parcel.writeInt(this.projectedEnrollment);
+        parcel.writeInt(this.currentEnrollment);
+        parcel.writeString(this.status);
+        parcel.writeInt(this.totalRating);
+        parcel.writeInt(this.numRatings);
+        parcel.writeString(this.courseDescription);
     }
 }
