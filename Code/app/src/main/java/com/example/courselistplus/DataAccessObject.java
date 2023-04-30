@@ -157,7 +157,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
      *
      * @return List of all courses (Course Model objects) in the database
      */
-    protected List<CourseModel> getAllCourses() {
+    public List<CourseModel> getAllCourses() {
         List<CourseModel> returnList = new ArrayList<>();
 
         String queryString = "SELECT * FROM " + COURSES_TABLE;
