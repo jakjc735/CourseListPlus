@@ -27,6 +27,8 @@ public class CourseViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_view);
 
+        getSupportActionBar().setTitle("Course Description");
+
         // Init the student database
         studentDB = new StudentDataAccessObject(CourseViewActivity.this);
 
@@ -45,11 +47,11 @@ public class CourseViewActivity extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         CourseModel selectedCourse = data.getParcelable("Course");
 
-        courseName.setText(selectedCourse.getCourseTitle());
-        courseId.setText(selectedCourse.getCourseID());
-        instructor.setText(selectedCourse.getCourseInstructor());
-        courseTime.setText(selectedCourse.getMeetTime());
-        courseDescription.setText(selectedCourse.getCourseDescription());
+        courseName.setText("Course Name: "+ selectedCourse.getCourseTitle());
+        courseId.setText("ID: " + selectedCourse.getCourseID());
+        instructor.setText("Instructor: " + selectedCourse.getCourseInstructor());
+        courseTime.setText("Day and Time: " + selectedCourse.getMeetDays() + " from " + selectedCourse.getMeetTime());
+        courseDescription.setText("Description: " + selectedCourse.getCourseDescription());
         courseRating.setText("Course Overall Rating: " + selectedCourse.getOverallRating() +
                 " (as rated by " + selectedCourse.getNumRatings() + " students!)");
 
