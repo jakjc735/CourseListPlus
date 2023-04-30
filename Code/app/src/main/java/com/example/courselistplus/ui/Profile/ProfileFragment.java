@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.example.courselistplus.R;
 import com.example.courselistplus.databinding.FragmentCourselistBinding;
 import com.example.courselistplus.databinding.FragmentProfileBinding;
+import com.example.courselistplus.profileActivity;
 import com.example.courselistplus.ui.ProfileActivity;
 
 public class ProfileFragment  extends Fragment {
@@ -36,7 +37,7 @@ public class ProfileFragment  extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(ProfileFragment.this.getActivity(), ProfileActivity.class);
+                Intent myIntent = new Intent(ProfileFragment.this.getActivity(), profileActivity.class);
                 ProfileFragment.this.startActivity(myIntent);
             }
         });
