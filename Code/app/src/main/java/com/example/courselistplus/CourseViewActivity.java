@@ -63,13 +63,10 @@ public class CourseViewActivity extends AppCompatActivity {
         });
 
         // Allows students to add ratings to a course
-        rateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent ratingIntent = new Intent(CourseViewActivity.this, RateCourseActivity.class);
-                ratingIntent.putExtra("Course", selectedCourse);
-                startActivity(ratingIntent);
-            }
+        rateButton.setOnClickListener(v -> {
+            Intent ratingIntent = new Intent(CourseViewActivity.this, RateCourseActivity.class);
+            ratingIntent.putExtra("Course", selectedCourse);
+            startActivity(ratingIntent);
         });
     }
 }

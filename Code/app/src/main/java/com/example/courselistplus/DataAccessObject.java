@@ -117,7 +117,7 @@ public class DataAccessObject extends SQLiteOpenHelper {
         db.close();
     }
 
-    protected void update(CourseModel courseModel, int rating){
+    public void update(CourseModel courseModel, int rating){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
