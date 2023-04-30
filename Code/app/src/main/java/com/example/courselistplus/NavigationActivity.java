@@ -149,7 +149,7 @@ public class NavigationActivity extends AppCompatActivity {
                                 courseTitle, courseInstructor, courseCreditHours, courseMeetDays, courseMeetTime,
                                 courseProjectedEnrollment, courseCurrentEnrollment, courseStatus,
                                 courseTotalRating, courseNumRatings, courseCourseDescription);
-                        dataAccessObject.addOne(currentCourse);
+                        dataAccessObject.insert(currentCourse);
                     }
                 }
             } catch (IOException e) {

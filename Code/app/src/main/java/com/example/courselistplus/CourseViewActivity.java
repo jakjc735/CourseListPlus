@@ -1,11 +1,14 @@
 package com.example.courselistplus;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.courselistplus.ui.CourseList.RateCourseActivity;
 
 public class CourseViewActivity extends AppCompatActivity {
     Button addButton;
@@ -28,8 +31,8 @@ public class CourseViewActivity extends AppCompatActivity {
         studentDB = new StudentDataAccessObject(CourseViewActivity.this);
 
         //Initalize Buttons
-        addButton = (Button) findViewById(R.id.AddButton);
-        rateButton = (Button) findViewById(R.id.RateButton);
+        addButton = findViewById(R.id.AddButton);
+        rateButton = findViewById(R.id.RateButton);
 
         //Initalize Textviews
         courseName = findViewById(R.id.CourseName);
@@ -38,8 +41,6 @@ public class CourseViewActivity extends AppCompatActivity {
         instructor = findViewById(R.id.Instructor);
         courseTime = findViewById(R.id.CourseTime);
         courseDescription = findViewById(R.id.CourseDescription);
-
-        // TODO: Get all course attrs from intent
 
         Bundle data = getIntent().getExtras();
         CourseModel selectedCourse = data.getParcelable("Course");
@@ -56,22 +57,16 @@ public class CourseViewActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Add course to student database
-
-                // Create course model object
-                //TODO: @amir Fix the example fields
-                CourseModel studentCourse = new CourseModel(selectedCourse.getId(), selectedCourse.getCRN(),
-                        selectedCourse.getCourseID(), selectedCourse.getCourseAttribute(),
-                        selectedCourse.getCourseTitle(), selectedCourse.getCourseInstructor(),
-                        selectedCourse.getCreditHours(), selectedCourse.getMeetDays(),
-                        selectedCourse.getMeetTime(), selectedCourse.getProjectedEnrollment(),
-                        selectedCourse.getCurrentEnrollment(), selectedCourse.getStatus(),
-                        selectedCourse.getTotalRating(), selectedCourse.getNumRatings(),
-                        selectedCourse.getCourseDescription());
-
                 // Add course model to student database
-                studentDB.addOne(studentCourse);
+                studentDB.addOne(data.getParcelable("Course"));
             }
+        });
+
+        // Allows students to add ratings to a course
+        rateButton.setOnClickListener(v -> {
+            Intent ratingIntent = new Intent(CourseViewActivity.this, RateCourseActivity.class);
+            ratingIntent.putExtra("Course", selectedCourse);
+            startActivity(ratingIntent);
         });
     }
 }

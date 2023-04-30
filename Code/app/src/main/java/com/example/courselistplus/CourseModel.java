@@ -170,6 +170,15 @@ public class CourseModel implements Parcelable {
         return totalRating / numRatings;
     }
 
+    public void addRating(int rating){
+        if(1 <= rating && rating <= 5){
+            numRatings += 1;
+            totalRating += rating;
+        }
+
+        return;
+    }
+
     @Override
     public String toString() {
         return "CourseModel{" +
