@@ -45,8 +45,9 @@ public class CourseListFragment extends Fragment {
 
         // Pre-populate courses list view with all courses
         // This way, users may browse all courses before making a query
-        coursesListView.setAdapter(new ArrayAdapter<CourseModel>(root.getContext(),
-                android.R.layout.simple_list_item_1, dataAccessObject.getAllCourses()));
+        CourseAdapter courseAdapter = new CourseAdapter(root.getContext(), R.layout.list_item,
+                dataAccessObject.getAllCourses());
+        coursesListView.setAdapter(courseAdapter);
 
         // Initialize spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(root.getContext(),
@@ -59,23 +60,21 @@ public class CourseListFragment extends Fragment {
                     filterSpinner.getSelectedItem().toString(), querySearchView.getQuery().toString()
             );
 
-            ArrayAdapter courseArrayAdapter = new ArrayAdapter<CourseModel>(
-                    root.getContext(), android.R.layout.simple_list_item_1, searchResults);
-            coursesListView.setAdapter(courseArrayAdapter);
+            CourseAdapter arrayAdapter = new CourseAdapter(root.getContext(), R.layout.list_item,
+                    searchResults);
+            coursesListView.setAdapter(arrayAdapter);
+        });
 
-            // TODO @abdi move this item click listener outside the search button click listener
-            coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                    CourseModel selectedItem = (CourseModel) adapterView.getItemAtPosition(i);
-                    Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
+        coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                CourseModel selectedItem = (CourseModel) adapterView.getItemAtPosition(i);
+                Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
 
+                myIntent.putExtra("Course", selectedItem);
 
-                    myIntent.putExtra("Course", selectedItem);
-
-                    startActivity(myIntent);
-                }
-            });
+                startActivity(myIntent);
+            }
         });
 
         return root;
