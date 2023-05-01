@@ -4,11 +4,13 @@ import static com.example.courselistplus.ui.Calendar.CalendarUtils.daysInWeekArr
 import static com.example.courselistplus.ui.Calendar.CalendarUtils.monthYearFromDate;
 import static com.example.courselistplus.ui.Calendar.CalendarUtils.selectedDate;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.courselistplus.CourseModel;
+import com.example.courselistplus.CourseViewActivity;
 import com.example.courselistplus.R;
 import com.example.courselistplus.StudentDataAccessObject;
 import com.example.courselistplus.databinding.FragmentCalendarBinding;
@@ -71,6 +74,18 @@ public class CalendarFragment extends Fragment implements CalendarAdapter.OnItem
         forwardsWeekButton.setOnClickListener((view) -> {
             CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);
             setWeekView();
+        });
+
+        courseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                CourseModel selectedItem = (CourseModel) adapterView.getItemAtPosition(i);
+                Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
+
+                myIntent.putExtra("Course", selectedItem);
+
+                startActivity(myIntent);
+            }
         });
 
         return root;
