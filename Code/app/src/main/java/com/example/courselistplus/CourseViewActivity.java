@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.courselistplus.ui.Calendar.CalendarFragment;
 import com.example.courselistplus.ui.CourseList.RateCourseActivity;
 
 public class CourseViewActivity extends AppCompatActivity {
@@ -61,6 +62,8 @@ public class CourseViewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Add course model to student database
                 studentDB.addOne(data.getParcelable("Course"));
+                Intent calendarIntent = new Intent(CourseViewActivity.this, NavigationActivity.class);
+                startActivity(calendarIntent);
             }
         });
 
