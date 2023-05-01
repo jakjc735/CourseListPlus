@@ -17,6 +17,9 @@
             android:name=".CourseViewActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.CourseList.RateCourseActivity"
+            android:exported="false" />
+        <activity
             android:name=".WeekActivity"
             android:exported="false" />
         <activity

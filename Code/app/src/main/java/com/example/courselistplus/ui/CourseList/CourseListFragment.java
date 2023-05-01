@@ -34,6 +34,8 @@ public class CourseListFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCourselistBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        // Initialize database
+        DataAccessObject dataAccessObject = new DataAccessObject(root.getContext());
 
         // Initialize buttons
         searchButton = root.findViewById(R.id.searchButton);
@@ -41,33 +43,38 @@ public class CourseListFragment extends Fragment {
         querySearchView = root.findViewById(R.id.querySearchView);
         filterSpinner = (Spinner) root.findViewById(R.id.filterSpinner);
 
+        // Pre-populate courses list view with all courses
+        // This way, users may browse all courses before making a query
+        CourseAdapter courseAdapter = new CourseAdapter(root.getContext(), R.layout.list_item,
+                dataAccessObject.getAllCourses());
+        coursesListView.setAdapter(courseAdapter);
+
+        // Initialize spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(root.getContext(),
                 R.array.search_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(adapter);
 
         searchButton.setOnClickListener((view) -> {
-            DataAccessObject dataAccessObject = new DataAccessObject(root.getContext());
             List<CourseModel> searchResults = dataAccessObject.getMatchingCourses(
                     filterSpinner.getSelectedItem().toString(), querySearchView.getQuery().toString()
             );
 
-            ArrayAdapter courseArrayAdapter = new ArrayAdapter<CourseModel>(
-                    root.getContext(), android.R.layout.simple_list_item_1, searchResults);
-            coursesListView.setAdapter(courseArrayAdapter);
+            CourseAdapter arrayAdapter = new CourseAdapter(root.getContext(), R.layout.list_item,
+                    searchResults);
+            coursesListView.setAdapter(arrayAdapter);
+        });
 
-            coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                    CourseModel selectedItem = (CourseModel) adapterView.getItemAtPosition(i);
-                    Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
+        coursesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                CourseModel selectedItem = (CourseModel) adapterView.getItemAtPosition(i);
+                Intent myIntent = new Intent(getActivity(), CourseViewActivity.class);
 
+                myIntent.putExtra("Course", selectedItem);
 
-                    myIntent.putExtra("Course", selectedItem);
-
-                    startActivity(myIntent);
-                }
-            });
+                startActivity(myIntent);
+            }
         });
 
         return root;

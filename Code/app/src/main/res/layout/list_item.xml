@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/courseImageView"
+        android:src="@drawable/wm_logo"
+        android:layout_height="80dp"
+        android:layout_width="80dp"
+        android:layout_marginTop="20dp"
+    />
+
+    <TextView
+        android:id="@+id/courseTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@+id/courseImageView"
+        android:text="Power"
+        android:textStyle="bold"
+        android:textSize="22sp"
+    />
+
+    <TextView
+        android:id="@+id/courseMeetDaysAndTimesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/courseTitleTextView"
+        android:layout_toRightOf="@+id/courseImageView"
+        android:text="MWF:1200-1250"
+        android:textSize="18sp"
+    />
+
+    <TextView
+        android:id="@+id/courseInstructorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/courseMeetDaysAndTimesTextView"
+        android:layout_toRightOf="@+id/courseImageView"
+        android:text="St. Patrick, James"
+        android:textSize="18sp"
+        />
+
+    <ImageView
+        android:id="@+id/courseRatingImageView"
+        android:src="@drawable/one_star"
+        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_below="@id/courseTitleTextView"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        />
+
+</RelativeLayout>
