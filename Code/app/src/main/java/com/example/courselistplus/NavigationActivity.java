@@ -142,11 +142,11 @@ public class NavigationActivity extends AppCompatActivity {
                             // We are randomly generating ratings for each course since we do not have this data yet
                             courseTotalRating = 0;
                             courseNumRatings = ThreadLocalRandom.current().nextInt(1, 11);
-                        }
 
-                        // Need to generate numRatings number of random course ratings, 1-5
-                        for (int j = 0; j < courseNumRatings; j++) {
-                            courseTotalRating += ThreadLocalRandom.current().nextInt(1, 6);
+                            // Need to generate numRatings number of random course ratings, 1-5
+                            for (int j = 0; j < courseNumRatings; j++) {
+                                courseTotalRating += ThreadLocalRandom.current().nextInt(1, 6);
+                            }
                         }
 
                         String courseCourseDescription = currentCourseCourseDescriptionPage.select(
