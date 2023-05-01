@@ -54,5 +54,10 @@
     <string name="time">Time</string>
     <string name="event">Event</string>
     <string name="Event" />
+    <string name="courseListPlus">Course List Plus</string>
+    <string name="topPicks">Top Picks</string>
+    <string name="majorCourse">Major Courses</string>
+    <string name="menu_home">Home Page</string>
+    <string name="popularCourses">Popular Courses</string>
 
 </resources>

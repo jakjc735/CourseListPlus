@@ -538,4 +538,52 @@ public class DataAccessObject extends SQLiteOpenHelper {
         db.close();
         return returnList;
     }
+
+    /**
+     * Method to process the query of a user searching for a course by total rating
+     *
+     * @return List of courses (Course Model objects) from the database matching the query
+     */
+    public List<CourseModel> getTopRating() {
+        List<CourseModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * FROM " + COURSES_TABLE + " ORDER BY " + COLUMN_TOTAL_RATING + " DESC LIMIT 20";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int coursePrimaryKey = cursor.getInt(0);
+                int CRN = cursor.getInt(1);
+                String courseID = cursor.getString(2);
+                String courseAttribute = cursor.getString(3);
+                String courseTitle = cursor.getString(4);
+                String courseInstructor = cursor.getString(5);
+                String creditHours = cursor.getString(6);
+                String meetDays = cursor.getString(7);
+                String meetTime = cursor.getString(8);
+                int projectedEnrollment = cursor.getInt(9);
+                int currentEnrollment = cursor.getInt(10);
+                String status = cursor.getString(11);
+                int totalRating = cursor.getInt(12);
+                int numRatings = cursor.getInt(13);
+                String courseDescription = cursor.getString(14);
+
+                CourseModel newCourseModel = new CourseModel(coursePrimaryKey,
+                        CRN, courseID, courseAttribute, courseTitle, courseInstructor,
+                        creditHours, meetDays, meetTime, projectedEnrollment,
+                        currentEnrollment, status, totalRating, numRatings, courseDescription);
+
+                returnList.add(newCourseModel);
+            } while (cursor.moveToNext());
+        } else {
+            // failure, is the database empty?
+        }
+
+        // close both the cursor and the db when done
+        cursor.close();
+        db.close();
+        return returnList;
+    }
 }

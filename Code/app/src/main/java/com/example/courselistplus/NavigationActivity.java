@@ -3,7 +3,6 @@ package com.example.courselistplus;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -41,7 +40,7 @@ public class NavigationActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_profile)
+                R.id.nav_calendar, R.id.nav_gallery, R.id.nav_profile, R.id.nav_homepage)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(
