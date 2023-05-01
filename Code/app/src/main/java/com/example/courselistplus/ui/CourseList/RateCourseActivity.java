@@ -48,15 +48,34 @@ public class RateCourseActivity extends AppCompatActivity {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ratingSpinner.setAdapter(arrayAdapter);
 
-        //
         ratingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             //what to do when an item is selected
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-                String rateValue = parent.getItemAtPosition(position).toString();
-                Toast.makeText(parent.getContext(), "Selected: " + ratingSpinner.getSelectedItem(),
-                        Toast.LENGTH_LONG).show();
+                int rateValue = (Integer) parent.getItemAtPosition(position);
+                switch (rateValue) {
+                    case 1:
+                        Toast.makeText(parent.getContext(), "Aw man, better luck next semester!",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    case 2:
+                        Toast.makeText(parent.getContext(), "Not great... but it could have been worse!",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    case 3:
+                        Toast.makeText(parent.getContext(), "A pretty average course, no shame there!",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    case 4:
+                        Toast.makeText(parent.getContext(), "Looks like you enjoyed this course!",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    case 5:
+                        Toast.makeText(parent.getContext(), "WOW... 5 stars?? Peter Kemper must have taught this course!",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                }
             }
 
             @Override

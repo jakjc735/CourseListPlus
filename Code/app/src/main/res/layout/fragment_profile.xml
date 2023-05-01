@@ -1,7 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/darkBlue">
+    android:background="#143452"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/account"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:background="#22496D"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/notification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings"
+        app:layout_constraintVertical_bias="0.464" />
+
+    <TextView
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textColor="#FEFEFE"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.065" />
+
+    <View
+        android:id="@+id/notification"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="236dp"
+        android:background="#22496D"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings"
+        app:layout_constraintVertical_bias="0.495" />
+
+    <TextView
+        android:id="@+id/account_text"
+        android:layout_width="72dp"
+        android:layout_height="27dp"
+        android:text="Account"
+        android:textColor="#FEFEFE"
+        app:layout_constraintBottom_toBottomOf="@+id/account"
+        app:layout_constraintEnd_toStartOf="@+id/edit_button"
+        app:layout_constraintHorizontal_bias="0.398"
+        app:layout_constraintStart_toStartOf="@+id/account"
+        app:layout_constraintTop_toTopOf="@+id/account"
+        app:layout_constraintVertical_bias="0.136" />
+
+    <TextView
+        android:id="@+id/notification_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="164dp"
+        android:text="Notification"
+        android:textColor="#FEFEFE"
+        app:layout_constraintBottom_toBottomOf="@+id/notification"
+        app:layout_constraintEnd_toEndOf="@+id/notification"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="@+id/notification"
+        app:layout_constraintTop_toTopOf="@+id/notification"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:textColor="#FEFEFE"
+        app:layout_constraintBottom_toBottomOf="@+id/account"
+        app:layout_constraintEnd_toEndOf="@+id/account"
+        app:layout_constraintHorizontal_bias="0.439"
+        app:layout_constraintStart_toStartOf="@+id/account"
+        app:layout_constraintTop_toBottomOf="@+id/account_text"
+        app:layout_constraintVertical_bias="0.545" />
+
+    <ImageButton
+        android:id="@+id/edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Button used to edit profile"
+        app:layout_constraintBottom_toBottomOf="@+id/account"
+        app:layout_constraintEnd_toEndOf="@+id/account"
+        app:layout_constraintHorizontal_bias="0.823"
+        app:layout_constraintStart_toEndOf="@+id/edit_profile"
+        app:layout_constraintTop_toBottomOf="@+id/account_text"
+        app:layout_constraintVertical_bias="0.671"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <TextView
+        android:id="@+id/notification_toggle_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Notification"
+        android:textColor="#FEFEFE"
+        app:layout_constraintEnd_toEndOf="@+id/notification"
+        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintStart_toStartOf="@+id/notification"
+        app:layout_constraintTop_toBottomOf="@+id/notification_text" />
+
+    <TextView
+        android:id="@+id/app_notification_toggle_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="App Notification"
+        android:textColor="#FEFEFE"
+        app:layout_constraintBottom_toBottomOf="@+id/notification"
+        app:layout_constraintEnd_toEndOf="@+id/notification"
+        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintStart_toStartOf="@+id/notification"
+        app:layout_constraintTop_toBottomOf="@+id/notification_toggle_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Switch
+        android:id="@+id/notification_toggle"
+        android:width="48dp"
+        android:height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/app_notification_toggle_text"
+        app:layout_constraintEnd_toEndOf="@+id/notification"
+        app:layout_constraintHorizontal_bias="0.697"
+        app:layout_constraintStart_toEndOf="@+id/notification_toggle_text"
+        app:layout_constraintTop_toBottomOf="@+id/notification_text"
+        app:layout_constraintVertical_bias="0.547" />
+
+    <Switch
+        android:id="@+id/app_notification_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="48dp"
+        android:height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/notification"
+        app:layout_constraintEnd_toEndOf="@+id/notification"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toEndOf="@+id/app_notification_toggle_text"
+        app:layout_constraintTop_toBottomOf="@+id/notification_toggle"
+        app:layout_constraintVertical_bias="0.35" />
+
+    <ImageView
+        android:id="@+id/notification_image"
+        android:layout_width="59dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/notification_toggle_text"
+        app:layout_constraintEnd_toStartOf="@+id/notification_text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/notification"
+        app:layout_constraintTop_toTopOf="@+id/notification"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+    <ImageView
+        android:id="@+id/account_image"
+        android:layout_width="55dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_profile"
+        app:layout_constraintEnd_toStartOf="@+id/edit_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/account"
+        app:layout_constraintTop_toTopOf="@+id/account"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,7 +41,7 @@ public class NavigationActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_homepage, R.id.nav_gallery, R.id.nav_home)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_profile)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(
@@ -133,13 +133,20 @@ public class NavigationActivity extends AppCompatActivity {
                         int courseProjectedEnrollment = Integer.parseInt(row.select("td:nth-of-type(8)").text());
                         int courseCurrentEnrollment = Integer.parseInt(row.select("td:nth-of-type(9)").text());
                         String courseStatus = row.select("td:nth-of-type(11)").text();
+                        int courseTotalRating;
+                        int courseNumRatings;
+                        if(courseInstructor.equals("Kemper, Peter")){
+                            courseTotalRating = 150;
+                            courseNumRatings = 30;
+                        } else{
+                            // We are randomly generating ratings for each course since we do not have this data yet
+                            courseTotalRating = 0;
+                            courseNumRatings = ThreadLocalRandom.current().nextInt(1, 11);
 
-                        // We are randomly generating ratings for each course since we do not have this data yet
-                        int courseTotalRating = 0;
-                        int courseNumRatings = ThreadLocalRandom.current().nextInt(1, 11);
-                        // Need to generate numRatings number of random course ratings, 1-5
-                        for (int j = 0; j < courseNumRatings; j++) {
-                            courseTotalRating += ThreadLocalRandom.current().nextInt(1, 6);
+                            // Need to generate numRatings number of random course ratings, 1-5
+                            for (int j = 0; j < courseNumRatings; j++) {
+                                courseTotalRating += ThreadLocalRandom.current().nextInt(1, 6);
+                            }
                         }
 
                         String courseCourseDescription = currentCourseCourseDescriptionPage.select(
