@@ -33,7 +33,21 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ListView
+                        android:id="@+id/popularCourseListView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
     </HorizontalScrollView>
 
     <TextView
@@ -92,4 +106,5 @@
         <!--            android:layout_height="match_parent"-->
         <!--            android:orientation="vertical" />-->
     </HorizontalScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
