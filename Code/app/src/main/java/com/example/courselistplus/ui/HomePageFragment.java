@@ -36,7 +36,7 @@ public class HomePageFragment extends Fragment {
         popularCourses = root.findViewById(R.id.popularCourseListView);
 
         CourseAdapter courseAdapter = new CourseAdapter(root.getContext(), R.layout.list_item,
-                dataAccessObject.getAllCourses());
+                dataAccessObject.getTopRating());
         popularCourses.setAdapter(courseAdapter);
 
         popularCourses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
